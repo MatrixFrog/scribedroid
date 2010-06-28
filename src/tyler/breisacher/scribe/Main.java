@@ -15,6 +15,6 @@ public class Main extends Activity {
     setContentView(R.layout.main);
 
     MiniGridView miniGridView = (MiniGridView) findViewById(R.id.miniGrid);
-    miniGridView.setMiniGrid(miniGrid);        
+    miniGridView.setMiniGrid(miniGrid); 
   }
 }
