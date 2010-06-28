@@ -3,15 +3,14 @@ package tyler.breisacher.scribe;
 import tyler.breisacher.scribe.model.ScribeMark;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.AttributeSet;
 import android.widget.TextView;
 
 public class CellView extends TextView {
   
   private ScribeMark mark;
 
-  public CellView(Context context, AttributeSet attrs) {
-    super(context, attrs);
+  public CellView(Context context) {
+    super(context);
   }
 
   public void setMark(ScribeMark mark) {
