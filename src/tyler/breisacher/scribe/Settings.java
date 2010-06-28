@@ -5,7 +5,7 @@ import android.graphics.Color;
 
 public abstract class Settings {
 
-  public static int getColorForMark(ScribeMark mark) {
+  public static int getEnabledColorForMark(ScribeMark mark) {
     switch (mark) {
     case BLUE:
       return Color.BLUE;
@@ -15,6 +15,22 @@ public abstract class Settings {
     default:
       return Color.WHITE;
     }
+  }
+  
+  public static int getDisabledColorForMark(ScribeMark mark) {
+    switch (mark) {
+    case BLUE:
+      return Color.rgb(0, 0, 127);
+    case RED:
+      return Color.rgb(127, 0, 0);
+    case EMPTY:
+    default:
+      return Color.rgb(127, 127, 127);
+    }
+  }
+
+  public static int getColorForMark(ScribeMark mark, boolean enabled) {
+    return enabled ? getEnabledColorForMark(mark) : getDisabledColorForMark(mark);
   }
   
 }

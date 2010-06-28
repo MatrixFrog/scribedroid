@@ -42,7 +42,11 @@ public class MiniGridView extends TableLayout implements MiniGridListener {
   
   @Override
   public void miniGridChanged(MiniGrid miniGrid, XY xy, ScribeMark mark) {
-    assert false;
-    this.get(xy).setMark(mark);
+    if (miniGrid == this.miniGrid) {
+      this.get(xy).setMark(mark);
+    }
+    else {
+      // TODO error handling
+    }
   }
 }
