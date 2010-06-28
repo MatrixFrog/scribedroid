@@ -1,12 +1,12 @@
 package tyler.breisacher.scribe;
 
 import tyler.breisacher.scribe.model.MiniGrid;
+import tyler.breisacher.scribe.model.ScribeMark;
 import tyler.breisacher.scribe.model.XY;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
 public class Main extends Activity {
     /** Called when the activity is first created. */
@@ -21,8 +21,10 @@ public class Main extends Activity {
         
         for (XY xy : XY.allXYs()) {
           TableRow row = (TableRow) miniGridView.getChildAt(xy.y);
-          String text = miniGrid.get(xy).toChar() + "";
-          ((TextView) row.getChildAt(xy.x)).setText(text);
+          CellView cell = (CellView) row.getChildAt(xy.x);
+          
+          ScribeMark mark = miniGrid.get(xy);
+          cell.setMark(mark);
         }
     }
 }

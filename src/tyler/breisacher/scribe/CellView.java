@@ -1,21 +1,32 @@
 package tyler.breisacher.scribe;
 
+import tyler.breisacher.scribe.model.ScribeMark;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 public class CellView extends TextView {
-  public CellView(Context context, AttributeSet attrs, int defStyle) {
-    super(context, attrs, defStyle);
+  
+  private ScribeMark mark;
+
+  public CellView(Context context, AttributeSet attrs) {
+    super(context, attrs);
   }
 
-  @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    // Keep the view squared. From the TicTacToe sample
-    int w = MeasureSpec.getSize(widthMeasureSpec);
-    int h = MeasureSpec.getSize(heightMeasureSpec);
-    int d = w == 0 ? h : h == 0 ? w : w < h ? w : h;
-    setMeasuredDimension(d, d);
+  public void setMark(ScribeMark mark) {
+    this.mark = mark;
+    setText(mark.toChar() + "");
   }
   
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    setMeasuredDimension(25, 25);
+  }
+  
+  @Override
+  protected void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
+    this.setBackgroundColor(Settings.getColorForMark(this.mark));
+  }
 }
