@@ -20,7 +20,7 @@ public class CellView extends TextView {
   
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    setMeasuredDimension(25, 25);
+    setMeasuredDimension(50, 50);
   }
   
   @Override
