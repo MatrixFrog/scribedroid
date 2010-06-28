@@ -1,12 +1,15 @@
 package tyler.breisacher.scribe;
 
 import tyler.breisacher.scribe.model.MiniGrid;
+import tyler.breisacher.scribe.model.MiniGridListener;
+import tyler.breisacher.scribe.model.ScribeMark;
+import tyler.breisacher.scribe.model.XY;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-public class MiniGridView extends TableLayout {
+public class MiniGridView extends TableLayout implements MiniGridListener {
   private MiniGrid miniGrid;
 
   public MiniGridView(Context context, AttributeSet attrs) {
@@ -16,6 +19,7 @@ public class MiniGridView extends TableLayout {
   public void setMiniGrid(MiniGrid miniGrid) {
     this.miniGrid = miniGrid;
     rebuildLayout();
+    miniGrid.addChangeListener(this);
   }
 
   private void rebuildLayout() {
@@ -29,5 +33,16 @@ public class MiniGridView extends TableLayout {
         row.addView(cell);
       }
     }
+  }
+
+  public CellView get(XY xy) {
+    TableRow row = (TableRow) this.getChildAt(xy.y);
+    return (CellView) row.getChildAt(xy.x);
+  }
+  
+  @Override
+  public void miniGridChanged(MiniGrid miniGrid, XY xy, ScribeMark mark) {
+    assert false;
+    this.get(xy).setMark(mark);
   }
 }

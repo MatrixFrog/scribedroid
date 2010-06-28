@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="description">The abstract game Scribe, designed by Mark Steere</string>
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">Scribe</string>
 <string name="buttontext">Click me!</string>
