@@ -15,13 +15,17 @@ public class MiniGridView extends TableLayout {
 
   public void setMiniGrid(MiniGrid miniGrid) {
     this.miniGrid = miniGrid;
+    rebuildLayout();
+  }
+
+  private void rebuildLayout() {
     this.removeAllViews();
     for (int y=0; y<3; y++) {
       TableRow row = new TableRow(this.getContext());
       this.addView(row);
       for (int x=0; x<3; x++) {
         CellView cell = new CellView(this.getContext());
-        cell.setMark(miniGrid.get(x, y));
+        cell.setMark(this.miniGrid.get(x, y));
         row.addView(cell);
       }
     }
