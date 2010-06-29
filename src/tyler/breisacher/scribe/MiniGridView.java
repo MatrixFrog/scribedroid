@@ -5,17 +5,26 @@ import tyler.breisacher.scribe.model.MiniGridListener;
 import tyler.breisacher.scribe.model.ScribeMark;
 import tyler.breisacher.scribe.model.XY;
 import android.content.Context;
-import android.util.AttributeSet;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
 public class MiniGridView extends TableLayout implements MiniGridListener {
   private MiniGrid miniGrid;
 
-  public MiniGridView(Context context, AttributeSet attrs) {
-    super(context, attrs);
+  public MiniGridView(Context context) {
+    super(context);
+    this.setOnClickListener((Main) this.getContext());
   }
 
+  public MiniGridView(Context context, MiniGrid miniGrid) {
+    this(context);
+    this.setMiniGrid(miniGrid);
+  }
+  
+  public MiniGrid getMiniGrid() {
+    return this.miniGrid;
+  }
+  
   public void setMiniGrid(MiniGrid miniGrid) {
     this.miniGrid = miniGrid;
     rebuildLayout();

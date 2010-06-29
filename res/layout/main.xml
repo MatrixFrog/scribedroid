@@ -5,13 +5,6 @@
   android:layout_height="fill_parent"
   android:gravity="center_horizontal"
   >
-    <tyler.breisacher.scribe.MiniGridView 
-	  android:id="@+id/miniGrid"
-      android:layout_width="wrap_content" 
-      android:layout_height="wrap_content"
-      android:layout_margin="5px"
-      android:gravity="center"
-      />
     <tyler.breisacher.scribe.ScribeBoardView
       android:id="@+id/scribeBoard"
       android:layout_width="wrap_content" 

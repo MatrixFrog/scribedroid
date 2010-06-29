@@ -26,7 +26,7 @@ public class ScribeBoardView extends TableLayout {
       TableRow row = new TableRow(this.getContext());
       this.addView(row);
       for (int x=0; x<3; x++) {
-        MiniGridView miniGridView = new MiniGridView(this.getContext(), null);
+        MiniGridView miniGridView = new MiniGridView(this.getContext());
         MiniGrid miniGrid = this.scribeBoard.get(x, y);
         miniGridView.setMiniGrid(miniGrid);
         miniGrid.addChangeListener(miniGridView);
