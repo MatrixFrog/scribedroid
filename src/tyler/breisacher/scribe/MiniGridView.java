@@ -8,12 +8,14 @@ import android.content.Context;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-public class MiniGridView extends TableLayout implements MiniGridListener {
+public class MiniGridView extends TableLayout implements MiniGridListener{
   private MiniGrid miniGrid;
-
+  
   public MiniGridView(Context context) {
     super(context);
-    this.setOnClickListener((Main) this.getContext());
+    if (context instanceof Main) {
+      this.setOnClickListener((Main) context);
+    }
   }
 
   public MiniGridView(Context context, MiniGrid miniGrid) {
@@ -58,4 +60,5 @@ public class MiniGridView extends TableLayout implements MiniGridListener {
       // TODO error handling
     }
   }
+
 }
