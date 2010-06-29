@@ -1,5 +1,7 @@
 package tyler.breisacher.scribe;
 
+import java.util.Random;
+
 import tyler.breisacher.scribe.model.GridPosition;
 import tyler.breisacher.scribe.model.MiniGrid;
 import tyler.breisacher.scribe.model.ScribeBoard;
@@ -17,6 +19,7 @@ public class Main extends Activity implements OnClickListener {
   private ScribeBoard scribeBoard = new ScribeBoard();
   private View button;
   private MiniGrid currentMiniGrid;
+  private static Random random = new Random();
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class Main extends Activity implements OnClickListener {
     if (v == button) {
       for (GridPosition gp : GridPosition.allPositionsOn(scribeBoard)) {
         if (gp.miniGrid.get(gp.xy) == ScribeMark.EMPTY) {
-          ScribeMark mark = ScribeMark.RED;
+          ScribeMark mark = random .nextBoolean() ? ScribeMark.RED : ScribeMark.BLUE;
           gp.miniGrid.set(gp.xy, mark);
           return;
         }
@@ -46,6 +49,14 @@ public class Main extends Activity implements OnClickListener {
     else if (v instanceof MiniGridView) {
       this.currentMiniGrid = ((MiniGridView) v).getMiniGrid();
       this.showDialog(Constants.MINIGRID_DIALOG);
+    }
+  }
+  
+  @Override
+  protected void onPrepareDialog(int id, Dialog dialog) {
+    super.onPrepareDialog(id, dialog);
+    if (id == Constants.MINIGRID_DIALOG && dialog instanceof MiniGridDialog) {
+      ((MiniGridDialog) dialog).setMiniGrid(this.currentMiniGrid);
     }
   }
   
