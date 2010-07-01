@@ -1,8 +1,8 @@
 package tyler.breisacher.scribe;
 
-import tyler.breisacher.scribe.model.GridPosition;
 import tyler.breisacher.scribe.model.MiniGrid;
 import tyler.breisacher.scribe.model.ScribeBoard;
+import tyler.breisacher.scribe.model.ScribeListener;
 import tyler.breisacher.scribe.model.ScribeMark;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,28 +11,26 @@ import android.os.Bundle;
 import android.util.AndroidRuntimeException;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.Toast;
 
-public class Main extends Activity implements OnClickListener {
+public class Main extends Activity implements OnClickListener, ScribeListener {
 
   //private ScribeBoard scribeBoard = ScribeBoard.generateRandomBoard();
   private ScribeBoard scribeBoard = new ScribeBoard();
-  private View testingButton;
+  private CellView turnIndicator;
   private MiniGrid lastClickedMiniGrid;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.main);
+    setContentView(R.layout.portrait);
 
     ScribeBoardView scribeBoardView = (ScribeBoardView) findViewById(R.id.scribeBoard);
-    testingButton = (Button) findViewById(R.id.button);
+    turnIndicator = (CellView) findViewById(R.id.whoseTurn);
     
     scribeBoardView.setScribeBoard(scribeBoard);
-    
-    testingButton.setOnClickListener(this);
+    scribeBoard.addListener(this);
   }
 
   /**
@@ -42,15 +40,7 @@ public class Main extends Activity implements OnClickListener {
    */
   @Override
   public void onClick(View v) {
-    if (v == testingButton) {
-      for (GridPosition gp : GridPosition.allPositionsOn(scribeBoard)) {
-        if (gp.miniGrid.get(gp.xy) == ScribeMark.EMPTY) {
-          gp.miniGrid.set(gp.xy, Util.getRandomMark());
-          return;
-        }
-      }
-    }
-    else if (v instanceof MiniGridView) {
+    if (v instanceof MiniGridView) {
       this.lastClickedMiniGrid = ((MiniGridView) v).getMiniGrid();
       if (this.lastClickedMiniGrid.isEnabled()) {
         this.showDialog(Constants.DialogId.MINIGRID);
@@ -62,7 +52,7 @@ public class Main extends Activity implements OnClickListener {
   }
   
   private void alertIllegalMove() { // TODO decide on Toast vs. Dialog for this
-    Toast.makeText(this, R.string.illegal_move, Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, R.string.illegalMove, Toast.LENGTH_SHORT).show();
   }
 
   @Override
@@ -88,9 +78,23 @@ public class Main extends Activity implements OnClickListener {
       miniGridDialog.setMiniGrid(this.lastClickedMiniGrid);
       return miniGridDialog;
     case Constants.DialogId.ILLEGAL_MOVE:
-      return new AlertDialog.Builder(this).setMessage(R.string.illegal_move).create();
+      return new AlertDialog.Builder(this).setMessage(R.string.illegalMove).create();
     default:
       return null;
+    }
+  }
+  
+  @Override
+  public void scribeBoardWon(ScribeBoard scribeBoard, ScribeMark winner) {
+    if (this.scribeBoard == scribeBoard) {
+      // showDialog("You won!") or something
+    }
+  }
+  
+  @Override
+  public void whoseTurnChanged(ScribeBoard scribeBoard, ScribeMark currentPlayer) {
+    if (this.scribeBoard == scribeBoard) {
+      this.turnIndicator.setMark(currentPlayer);
     }
   }
 }

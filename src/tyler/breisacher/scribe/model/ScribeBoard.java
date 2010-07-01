@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+
+import tyler.breisacher.scribe.Util;
 
 /** 
  * The gameboard and some other data, such as whose turn it is.
@@ -34,13 +35,6 @@ public class ScribeBoard implements MiniGridListener {
     return whoseTurn;
   }
   
-  @Override
-  public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
-    lastMove.put(mark, new GridPosition(miniGrid, xy));
-    whoseTurn = mark.other();
-    update();
-  }
-
   public boolean isFull() {
     for (XY xy : XY.allXYs()) {
       if (!this.get(xy).isFull()) {
@@ -86,6 +80,17 @@ public class ScribeBoard implements MiniGridListener {
     }
   }
 
+  private void setWhoseTurn(ScribeMark mark) {
+    this.whoseTurn = mark;
+    notifyListenersOfWhoseTurn();
+  }
+
+  private void notifyListenersOfWhoseTurn() {
+    for (ScribeListener listener : listeners) {
+      listener.whoseTurnChanged(this, whoseTurn);
+    }
+  }
+  
   private void notifyListenersOfWinner(ScribeMark winner) {
     for (ScribeListener listener : listeners) {
       listener.scribeBoardWon(this, winner);
@@ -135,11 +140,17 @@ public class ScribeBoard implements MiniGridListener {
     ScribeBoard board = new ScribeBoard();
     for (XY miniGridXY : XY.allXYs()) {
       for (XY cellXY : XY.allXYs()) {
-        ScribeMark randomMark = new Random().nextBoolean() ? ScribeMark.RED : ScribeMark.BLUE;
-        board.get(miniGridXY).set(cellXY, randomMark);
+        board.get(miniGridXY).set(cellXY, Util.getRandomMark());
       }
     }
     return board;
+  }
+
+  @Override
+  public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
+    lastMove.put(mark, new GridPosition(miniGrid, xy));
+    this.setWhoseTurn(mark.other());
+    update();
   }
 
   @Override

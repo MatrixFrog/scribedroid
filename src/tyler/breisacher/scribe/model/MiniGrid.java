@@ -40,8 +40,8 @@ public class MiniGrid {
     data[xy.y][xy.x] = mark;
     if (mark != ScribeMark.EMPTY) { 
       updateRegions(xy, mark);
+      notifyListenersOfMark(xy, mark);
     }
-    notifyListenersOfMark(xy, mark);
   }
 
   private void updateRegions(XY xy, ScribeMark mark) {

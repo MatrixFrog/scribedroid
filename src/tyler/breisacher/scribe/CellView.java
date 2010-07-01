@@ -7,15 +7,24 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.WindowManager;
 
 public class CellView extends View {
   
-  private ScribeMark mark;
+  private ScribeMark mark = ScribeMark.EMPTY;
   private int margin = 3;
-  private int size;
+  private int size = Constants.MiniGridViewSize.SMALL;
   private XY xy;
+
+  {
+    this.setBackgroundColor(Color.BLACK);
+  }
+  
+  public CellView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
 
   public CellView(Context context, int size) {
     super(context);
@@ -24,7 +33,7 @@ public class CellView extends View {
 
   public void setMark(ScribeMark mark) {
     this.mark = mark;
-    this.setBackgroundColor(Color.BLACK);
+    this.postInvalidate();
   }
   
   @Override
