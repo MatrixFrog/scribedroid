@@ -1,6 +1,7 @@
 package tyler.breisacher.scribe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import tyler.breisacher.scribe.model.MiniGrid;
@@ -32,7 +33,7 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   public void setMiniGrid(MiniGrid miniGrid) {
     this.miniGrid = miniGrid;
     rebuildLayout();
-    miniGrid.addChangeListener(this);
+    miniGrid.addMiniGridListener(this);
   }
 
   private void rebuildLayout() {
@@ -64,13 +65,6 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
     return list;
   }
   
-  @Override
-  public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
-    if (miniGrid == this.miniGrid) {
-      this.get(xy).setMark(mark);
-    }
-  }
-
   /**
    * If this is a large (in-dialog) MiniGridView then each cell will have this
    * as its OnClickListener. 
@@ -82,10 +76,27 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   }
 
   @Override
+  public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
+    if (miniGrid == this.miniGrid) {
+      this.get(xy).setMark(mark);
+    }
+  }
+
+  @Override
   public void miniGridEnabled(MiniGrid miniGrid, boolean enabled) {
     this.setEnabled(enabled);
   }
   
+  @Override
+  public void miniGridLastMovesChanged(MiniGrid miniGrid, Collection<XY> lastMoves) {
+    for (CellView cellView : allCellViews()) {
+      cellView.setLastMove(false);
+    }
+    for (XY xy : lastMoves) {
+      this.get(xy).setLastMove(true);
+    }
+  }
+
   @Override
   public void setEnabled(boolean enabled) {
     super.setEnabled(enabled);

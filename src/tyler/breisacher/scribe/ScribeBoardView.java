@@ -30,7 +30,7 @@ public class ScribeBoardView extends TableLayout {
         
         MiniGrid miniGrid = this.scribeBoard.get(x, y);
         mgv.setMiniGrid(miniGrid);
-        miniGrid.addChangeListener(mgv);
+        miniGrid.addMiniGridListener(mgv);
         
         row.addView(mgv);
       }

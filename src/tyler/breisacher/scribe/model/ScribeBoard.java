@@ -1,6 +1,7 @@
 package tyler.breisacher.scribe.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -153,6 +154,11 @@ public class ScribeBoard implements MiniGridListener {
     update();
   }
 
+  @Override
+  public void miniGridLastMovesChanged(MiniGrid miniGrid, Collection<XY> lastMoves) {
+    // No action
+  };
+  
   @Override
   public void miniGridEnabled(MiniGrid miniGrid, boolean enabled) {
     // No action

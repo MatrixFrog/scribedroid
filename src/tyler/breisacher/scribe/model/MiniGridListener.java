@@ -1,5 +1,7 @@
 package tyler.breisacher.scribe.model;
 
+import java.util.Collection;
+
 public interface MiniGridListener {
 
   /**
@@ -20,4 +22,12 @@ public interface MiniGridListener {
    * @param enabled the new enabled state of the MiniGrid
    */
   void miniGridEnabled(MiniGrid miniGrid, boolean enabled);
+
+  /**
+   * Called automatically when a "last move" indicator is added or removed.
+   * 
+   * @param miniGrid
+   * @param lastMoves The current list of (at most two) last move indicators.
+   */
+  void miniGridLastMovesChanged(MiniGrid miniGrid, Collection<XY> lastMoves);
 }

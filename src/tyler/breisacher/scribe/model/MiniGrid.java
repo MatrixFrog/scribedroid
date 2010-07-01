@@ -1,8 +1,10 @@
 package tyler.breisacher.scribe.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +14,7 @@ public class MiniGrid {
   private final List<MiniGridListener> listeners = new ArrayList<MiniGridListener>();
   private boolean enabled = true;
   
-  private final List<XY> lastMoves = new ArrayList<XY>();
+  private Collection<XY> lastMoves = new HashSet<XY>();
   private ScribeBoard parent;
   
   private MiniGrid() {
@@ -25,7 +27,7 @@ public class MiniGrid {
   public MiniGrid(ScribeBoard scribeBoard) {
     this();
     this.parent = scribeBoard;
-    this.addChangeListener(scribeBoard);
+    this.addMiniGridListener(scribeBoard);
   }
 
   public void set(int x, int y, ScribeMark mark) {
@@ -144,7 +146,7 @@ public class MiniGrid {
     return miniGrid;
   }
   
-  public void addChangeListener(MiniGridListener listener) {
+  public void addMiniGridListener(MiniGridListener listener) {
     listeners.add(listener);
   }
   
@@ -160,6 +162,12 @@ public class MiniGrid {
     }
   }
 
+  private void notifyListenersOfLastMovesChange() {
+    for (MiniGridListener listener : listeners) {
+      listener.miniGridLastMovesChanged(this, getLastMoves());
+    }
+  }
+  
   void setEnabled(boolean enabled) {
     this.enabled = enabled;
     notifyListenersOfEnabledState();
@@ -169,16 +177,20 @@ public class MiniGrid {
     return enabled;
   }
 
-  void addLastMove(XY xy) {
-    lastMoves.add(xy);
-  }
-
   void clearLastMoves() {
-    lastMoves.clear();
+    if (!this.lastMoves.isEmpty()) {
+      this.lastMoves.clear();
+      notifyListenersOfLastMovesChange();
+    }
   }
   
-  public List<XY> getLastMoves() {
-    return Collections.unmodifiableList(lastMoves);
+  void addLastMove(XY xy) {
+    this.lastMoves.add(xy);
+    notifyListenersOfLastMovesChange();
+  }
+
+  public Collection<XY> getLastMoves() {
+    return Collections.unmodifiableCollection(lastMoves);
   }
 
   public void tryMove(XY xy) {
@@ -186,7 +198,7 @@ public class MiniGrid {
       this.set(xy, parent.whoseTurn());
     }
     catch (ScribeException e) {
-      // Do nothing for now
+      // TODO provide more information to the user
     }
   }
 }

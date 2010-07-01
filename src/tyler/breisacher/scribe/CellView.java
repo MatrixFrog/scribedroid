@@ -17,6 +17,7 @@ public class CellView extends View {
   private int margin = 3;
   private int size = Constants.MiniGridViewSize.SMALL;
   private XY xy;
+  private boolean lastMove;
 
   {
     this.setBackgroundColor(Color.BLACK);
@@ -36,6 +37,13 @@ public class CellView extends View {
     this.postInvalidate();
   }
   
+  public void setLastMove(boolean lastMove) {
+    if (this.lastMove == lastMove) return;
+    
+    this.lastMove = lastMove;
+    this.postInvalidate();
+  }
+
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     WindowManager windowManager = (WindowManager) this.getContext().getSystemService(Context.WINDOW_SERVICE);
@@ -59,6 +67,11 @@ public class CellView extends View {
     Paint paint = new Paint();
     paint.setColor(Settings.getColorForMark(this.mark, this.isEnabled()));
     canvas.drawRoundRect(new RectF(margin, margin, this.getWidth() - margin, this.getHeight() - margin), 10, 10, paint);
+    
+    if (this.lastMove) {
+      paint.setColor(Settings.getLastMoveColorForMark(this.mark, this.isEnabled()));
+      canvas.drawCircle(this.getWidth()/2, this.getHeight()/2, this.getWidth()/8, paint);
+    }
   }
 
   public void setXY(XY xy) {

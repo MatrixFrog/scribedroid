@@ -9,8 +9,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.AndroidRuntimeException;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class Main extends Activity implements OnClickListener, ScribeListener {
@@ -23,14 +25,23 @@ public class Main extends Activity implements OnClickListener, ScribeListener {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    
     setContentView(R.layout.portrait);
 
     ScribeBoardView scribeBoardView = (ScribeBoardView) findViewById(R.id.scribeBoard);
     turnIndicator = (CellView) findViewById(R.id.whoseTurn);
+    Button testingButton = (Button) findViewById(R.id.testingButton);
     
     scribeBoardView.setScribeBoard(scribeBoard);
     scribeBoard.addListener(this);
+    
+    testingButton.setOnClickListener(new OnClickListener() {
+      
+      @Override
+      public void onClick(View v) {
+        Log.e("scribedroid", "Hey! You clicked that button!");
+      }
+    });
   }
 
   /**

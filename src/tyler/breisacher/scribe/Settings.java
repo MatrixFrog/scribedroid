@@ -32,5 +32,9 @@ public abstract class Settings {
   public static int getColorForMark(ScribeMark mark, boolean enabled) {
     return enabled ? getEnabledColorForMark(mark) : getDisabledColorForMark(mark);
   }
+
+  public static int getLastMoveColorForMark(ScribeMark mark, boolean enabled) {
+    return Color.BLACK;
+  }
   
 }
