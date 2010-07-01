@@ -7,15 +7,15 @@
   >
     <tyler.breisacher.scribe.ScribeBoardView
       android:id="@+id/scribeBoard"
-      android:layout_width="wrap_content" 
-      android:layout_height="wrap_content"
-      android:layout_margin="5px"
-      android:gravity="center"
+      android:layout_width="fill_parent" 
+      android:layout_height="fill_parent"
+      android:layout_weight="3"
       />
     <Button
       android:id="@+id/button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_weight="1"
       android:text="@+string/buttontext"
       />
 </LinearLayout>

@@ -17,8 +17,7 @@ public class ScribeBoard implements MiniGridListener {
 
   public ScribeBoard() {
     for (XY xy : XY.allXYs()) {
-      MiniGrid miniGrid = new MiniGrid();
-      miniGrid.addChangeListener(this);
+      MiniGrid miniGrid = new MiniGrid(this);
       data[xy.x][xy.y] = miniGrid;
     }
   }
@@ -36,7 +35,7 @@ public class ScribeBoard implements MiniGridListener {
   }
   
   @Override
-  public void miniGridChanged(MiniGrid miniGrid, XY xy, ScribeMark mark) {
+  public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
     lastMove.put(mark, new GridPosition(miniGrid, xy));
     whoseTurn = mark.other();
     update();
@@ -83,13 +82,13 @@ public class ScribeBoard implements MiniGridListener {
 
   private void checkForGameOver() {
     if (this.isFull()) {
-      notifyListeners(winner());
+      notifyListenersOfWinner(winner());
     }
   }
 
-  private void notifyListeners(ScribeMark winner) {
+  private void notifyListenersOfWinner(ScribeMark winner) {
     for (ScribeListener listener : listeners) {
-      listener.notifyWinner(winner);
+      listener.scribeBoardWon(this, winner);
     }
   }
 
@@ -101,7 +100,8 @@ public class ScribeBoard implements MiniGridListener {
     assert this.isFull();
     switch(Settings.getInstance().mode) {
     case SuperGlyph:
-      MiniGrid superGrid = new MiniGrid();
+      // build a temporary "MiniGrid" for calculating the overall winner
+      MiniGrid superGrid = new MiniGrid(this);
       for (XY xy : XY.allXYs()) {
         superGrid.set(xy, this.get(xy).winner());
       }
@@ -129,15 +129,6 @@ public class ScribeBoard implements MiniGridListener {
       this.get(xy).setEnabled(enable);
     }
   }
-
-  public void tryMove(MiniGrid miniGrid, XY xy) {
-    if (miniGrid.isEnabled()) {
-      miniGrid.set(xy, whoseTurn);
-    }
-    else {
-      throw new ScribeException("You cannot play in that minigrid.");
-    }
-  }
   
   // Probably not to be used in production.
   public static ScribeBoard generateRandomBoard() {
@@ -149,5 +140,10 @@ public class ScribeBoard implements MiniGridListener {
       }
     }
     return board;
+  }
+
+  @Override
+  public void miniGridEnabled(MiniGrid miniGrid, boolean enabled) {
+    // No action
   }
 }

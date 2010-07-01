@@ -9,19 +9,31 @@ import java.util.Map;
 public class MiniGrid {
   private final ScribeMark[][] data;
   List<Region> regions = new ArrayList<Region>();
-  private List<MiniGridListener> listeners = new ArrayList<MiniGridListener>();
+  private final List<MiniGridListener> listeners = new ArrayList<MiniGridListener>();
   private boolean enabled = true;
   
-  private List<XY> lastMoves = new ArrayList<XY>();
+  private final List<XY> lastMoves = new ArrayList<XY>();
+  private ScribeBoard parent;
   
-  public MiniGrid() {
+  private MiniGrid() {
     data = new ScribeMark[3][3];
     for (XY xy : XY.allXYs()) {
       this.set(xy, ScribeMark.EMPTY);
     }
   }
 
+  public MiniGrid(ScribeBoard scribeBoard) {
+    this();
+    this.parent = scribeBoard;
+    this.addChangeListener(scribeBoard);
+  }
+
+  public void set(int x, int y, ScribeMark mark) {
+    set(new XY(x,y), mark);
+  }
+
   public void set(XY xy, ScribeMark mark) {
+    if (!this.enabled) throw new ScribeException("This MiniGrid is disabled");
     if (mark != ScribeMark.EMPTY && this.get(xy) != ScribeMark.EMPTY) {
       throw new ScribeException("You cannot over-write a square that has already been claimed.");
     }
@@ -29,7 +41,7 @@ public class MiniGrid {
     if (mark != ScribeMark.EMPTY) { 
       updateRegions(xy, mark);
     }
-    notifyListeners(xy, mark);
+    notifyListenersOfMark(xy, mark);
   }
 
   private void updateRegions(XY xy, ScribeMark mark) {
@@ -58,10 +70,6 @@ public class MiniGrid {
         mergedRegion.addAll(region);
       }
     }
-  }
-
-  public void set(int x, int y, ScribeMark mark) {
-    set(new XY(x,y), mark);
   }
 
   public ScribeMark get(int x, int y) {
@@ -107,7 +115,7 @@ public class MiniGrid {
       return ScribeMark.RED;
   }
 
-  public List<Region> getRegions() {
+  List<Region> getRegions() {
     return Collections.unmodifiableList(regions);
   }
   
@@ -126,7 +134,7 @@ public class MiniGrid {
   /**
    * The input to fromString is the same as the output of toString
    */
-  public static MiniGrid fromString(String string) {
+  static MiniGrid fromString(String string) {
     string = string.replace("\n", "");
     MiniGrid miniGrid = new MiniGrid();
     int i=0;
@@ -140,29 +148,45 @@ public class MiniGrid {
     listeners.add(listener);
   }
   
-  public void notifyListeners(XY xy, ScribeMark mark) {
+  private void notifyListenersOfMark(XY xy, ScribeMark mark) {
     for (MiniGridListener listener : listeners) {
-      listener.miniGridChanged(this, xy, mark);
+      listener.miniGridMarked(this, xy, mark);
     }
   }
 
-  public void setEnabled(boolean enabled) {
+  private void notifyListenersOfEnabledState() {
+    for (MiniGridListener listener : listeners) {
+      listener.miniGridEnabled(this, enabled);
+    }
+  }
+
+  void setEnabled(boolean enabled) {
     this.enabled = enabled;
+    notifyListenersOfEnabledState();
   }
 
   public boolean isEnabled() {
-    return this.enabled && !this.isFull();
+    return enabled;
   }
 
-  public void addLastMove(XY xy) {
+  void addLastMove(XY xy) {
     lastMoves.add(xy);
   }
 
-  public void clearLastMoves() {
+  void clearLastMoves() {
     lastMoves.clear();
   }
   
   public List<XY> getLastMoves() {
     return Collections.unmodifiableList(lastMoves);
+  }
+
+  public void tryMove(XY xy) {
+    try {
+      this.set(xy, parent.whoseTurn());
+    }
+    catch (ScribeException e) {
+      // Do nothing for now
+    }
   }
 }

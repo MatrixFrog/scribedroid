@@ -1,5 +1,12 @@
 package tyler.breisacher.scribe;
 
-public abstract class Constants {
-  public static final int MINIGRID_DIALOG = 0;
+public final class Constants {
+  public static final class DialogId {
+    public static final int MINIGRID = 0;
+    public static final int ILLEGAL_MOVE = 1;
+  }
+  public static final class MiniGridViewSize {
+    public static final int SMALL = 0;
+    public static final int LARGE = 1;
+  }
 }
