@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tyler.breisacher.scribe.Constants;
+import android.util.Log;
+
 /**
  * An (x,y) pair. Both x and y will always be in the range [0, 3)
  */
@@ -21,6 +24,7 @@ public class XY {
   }
 
   private XY(int x, int y) {
+    Log.w(Constants.LOG_TAG, "Creating XY:" + x + y);
     if (0 <= x && x < 3)
       this.x = x;
     else throw new IllegalArgumentException();

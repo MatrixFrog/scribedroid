@@ -65,7 +65,7 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
     switch(item.getItemId()) {
     case R.id.menuitem_glyphs:
       Log.i(Constants.LOG_TAG, "Creating GlyphsViewer");
-      startActivity(new Intent(this, GlyphsViewer.class));
+      startActivity(new Intent(this, GlyphActivity.class));
       Log.i(Constants.LOG_TAG, "Started GlyphsViewer");
       break;
     case R.id.menuitem_rules:

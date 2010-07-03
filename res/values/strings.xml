@@ -14,5 +14,6 @@
 <string name="glyphs">Glyphs</string>
 <string name="rules">Rules</string>
 <string name="about">About</string>
-<string name="back">Back</string>
+<string name="back">Back to game</string>
+
 </resources>
