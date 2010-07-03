@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 // TODO rules
 // TODO glyphs
@@ -21,7 +20,7 @@ import android.widget.Toast;
 // TODO make a WinnerDialog class with a CellView, instead of text, and the option to start a new game
 // TODO separate classes for the two types of MiniGridViews?
 
-public class Main extends Activity implements View.OnClickListener, ScribeListener, DialogInterface.OnClickListener {
+public class Main extends Activity implements View.OnClickListener, ScribeListener {
 
   private ScribeBoard scribeBoard;
   private ScribeMark winner;
@@ -35,7 +34,7 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
     Log.i(Constants.LOG_TAG, "Main.onCreate called");
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.portrait);
+    setContentView(R.layout.main);
     turnIndicator = (CellView) findViewById(R.id.whoseTurn);
     scribeBoardView = (ScribeBoardView) findViewById(R.id.scribeBoard);
 
@@ -48,12 +47,6 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
     scribeBoard = new ScribeBoard();
     scribeBoardView.setScribeBoard(scribeBoard);
     scribeBoard.addListener(this);
-  }
-
-  private void alertIllegalMove() { // TODO decide on Toast vs. Dialog for this
-    Toast.makeText(this, R.string.msg_illegal_move, Toast.LENGTH_SHORT).show();
-    // or:
-    //showDialog(Constants.DialogId.ILLEGAL_MOVE);
   }
 
   @Override
@@ -73,7 +66,7 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
 
       break;
     case R.id.menuitem_exit:
-
+      showDialog(Constants.DialogId.EXIT);
       break;
     }
     return true;
@@ -87,7 +80,7 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
       ((MiniGridDialog) dialog).setMiniGrid(this.lastClickedMiniGrid);
       break;
     case Constants.DialogId.WINNER:
-      ((AlertDialog) dialog).setMessage(winner + " wins");
+      ((AlertDialog) dialog).setMessage(this.winner + " wins! Play again?");
     }
   }
 
@@ -101,14 +94,48 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
       return miniGridDialog;
     case Constants.DialogId.NEW_GAME:
       return new AlertDialog.Builder(this)
-                 .setMessage(R.string.msg_confirm_new_game)
-                 .setPositiveButton(android.R.string.yes, this)
-                 .setNegativeButton(android.R.string.no, this)
-                 .create();
+                .setMessage(R.string.msg_confirm_new_game)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int which) {
+                    startNewGame();
+                  }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                  }
+                })
+                .create();
     case Constants.DialogId.ILLEGAL_MOVE:
       return new AlertDialog.Builder(this).setMessage(R.string.msg_illegal_move).create();
     case Constants.DialogId.WINNER:
-      return new AlertDialog.Builder(this).setMessage(winner.toString() + " wins").create();
+      return new AlertDialog.Builder(this)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int which) {
+                    startNewGame();
+                  }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                  }
+                })
+                .setMessage(this.winner + " wins! Play again?")
+                .create();
+    case Constants.DialogId.EXIT:
+      return new AlertDialog.Builder(this)
+                .setMessage(R.string.msg_confirm_exit)
+                .setPositiveButton(R.string.exit_scribe, new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                  }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                  }
+                })
+                .create();
     default:
       return null;
     }
@@ -140,18 +167,6 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
     if (v instanceof MiniGridView && v.isEnabled()) {
       this.lastClickedMiniGrid = ((MiniGridView) v).getMiniGrid();
       this.showDialog(Constants.DialogId.MINIGRID);
-    }
-  }
-
-  @Override
-  public void onClick(DialogInterface dialog, int which) {
-    switch (which) {
-    case Dialog.BUTTON_POSITIVE:
-      startNewGame();
-      break;
-    case Dialog.BUTTON_NEGATIVE:
-    default:
-      dialog.cancel();
     }
   }
 }
