@@ -38,7 +38,7 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   }
 
   private void rebuildLayout() {
-    Log.i(Constants.LOG_TAG, this + ": rebuilding layout");
+    Log.v(Constants.LOG_TAG, this + ": rebuilding layout");
     this.removeAllViews();
     for (int y=0; y<3; y++) {
       TableRow row = new TableRow(this.getContext());
@@ -79,7 +79,7 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
 
   @Override
   public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
-    Log.i(Constants.LOG_TAG, miniGrid + "[" + xy + "] marked with " + mark);
+    Log.i(Constants.LOG_TAG, "MiniGrid[" + xy + "] marked with " + mark);
     if (miniGrid == this.miniGrid) {
       this.get(xy).setMark(mark);
     }
@@ -98,6 +98,11 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
     for (XY xy : lastMoves) {
       this.get(xy).setLastMove(true);
     }
+  }
+
+  @Override
+  public void miniGridWon(MiniGrid miniGrid, ScribeMark winner) {
+    // TODO Decide how the MiniGridView should change when the MiniGrid is won.
   }
 
   @Override

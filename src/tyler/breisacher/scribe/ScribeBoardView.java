@@ -21,7 +21,7 @@ public class ScribeBoardView extends TableLayout {
   }
 
   private void rebuildLayout() {
-    Log.i(Constants.LOG_TAG, "Rebuilding layout for " + this);
+    Log.v(Constants.LOG_TAG, "Rebuilding layout for " + this);
     this.removeAllViews();
 
     for (int y=0; y<3; y++) {

@@ -8,7 +8,7 @@ import java.util.Map;
 
 import tyler.breisacher.scribe.Util;
 
-/** 
+/**
  * The gameboard and some other data, such as whose turn it is.
  */
 public class ScribeBoard implements MiniGridListener {
@@ -23,7 +23,7 @@ public class ScribeBoard implements MiniGridListener {
       data[xy.x][xy.y] = miniGrid;
     }
   }
-  
+
   public MiniGrid get(XY xy) {
     return data[xy.x][xy.y];
   }
@@ -31,11 +31,11 @@ public class ScribeBoard implements MiniGridListener {
   public MiniGrid get(int x, int y) {
     return this.get(new XY(x,y));
   }
-  
+
   public ScribeMark whoseTurn() {
     return whoseTurn;
   }
-  
+
   public boolean isFull() {
     for (XY xy : XY.allXYs()) {
       if (!this.get(xy).isFull()) {
@@ -48,10 +48,10 @@ public class ScribeBoard implements MiniGridListener {
   private void update() {
     checkForGameOver();
     enableMiniGrids();
-    
+
     for (XY xy : XY.allXYs()) {
       MiniGrid miniGrid = this.get(xy);
-      miniGrid.clearLastMoves(); 
+      miniGrid.clearLastMoves();
     }
     for (GridPosition gp : lastMove.values()) {
       gp.miniGrid.addLastMove(gp.xy);
@@ -91,7 +91,7 @@ public class ScribeBoard implements MiniGridListener {
       listener.whoseTurnChanged(this, whoseTurn);
     }
   }
-  
+
   private void notifyListenersOfWinner(ScribeMark winner) {
     for (ScribeListener listener : listeners) {
       listener.scribeBoardWon(this, winner);
@@ -101,7 +101,7 @@ public class ScribeBoard implements MiniGridListener {
   public void addListener(ScribeListener listener) {
     listeners.add(listener);
   }
-  
+
   private ScribeMark winner() {
     assert this.isFull();
     switch(Settings.getInstance().mode) {
@@ -135,7 +135,7 @@ public class ScribeBoard implements MiniGridListener {
       this.get(xy).setEnabled(enable);
     }
   }
-  
+
   // Probably not to be used in production.
   public static ScribeBoard generateRandomBoard() {
     ScribeBoard board = new ScribeBoard();
@@ -158,9 +158,14 @@ public class ScribeBoard implements MiniGridListener {
   public void miniGridLastMovesChanged(MiniGrid miniGrid, Collection<XY> lastMoves) {
     // No action
   };
-  
+
   @Override
   public void miniGridEnabled(MiniGrid miniGrid, boolean enabled) {
+    // No action
+  }
+
+  @Override
+  public void miniGridWon(MiniGrid miniGrid, ScribeMark winner) {
     // No action
   }
 }

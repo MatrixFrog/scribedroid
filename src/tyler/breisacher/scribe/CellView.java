@@ -47,7 +47,7 @@ public class CellView extends View {
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    Log.d(Constants.LOG_TAG, "Measuring " + this);
+    Log.v(Constants.LOG_TAG, "Measuring " + this);
     WindowManager windowManager = (WindowManager) this.getContext().getSystemService(Context.WINDOW_SERVICE);
     int displayWidth = windowManager.getDefaultDisplay().getWidth();
     int displayHeight = windowManager.getDefaultDisplay().getHeight();
@@ -65,7 +65,7 @@ public class CellView extends View {
 
   @Override
   protected void onDraw(Canvas canvas) {
-    Log.d(Constants.LOG_TAG, "Drawing " + this);
+    Log.v(Constants.LOG_TAG, "Drawing " + this);
     super.onDraw(canvas);
     Paint paint = new Paint();
     paint.setColor(Settings.getColorForMark(this.mark, this.isEnabled()));

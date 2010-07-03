@@ -8,15 +8,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import tyler.breisacher.scribe.Constants;
+import android.util.Log;
+
 public class MiniGrid {
   private final ScribeMark[][] data;
   List<Region> regions = new ArrayList<Region>();
   private final List<MiniGridListener> listeners = new ArrayList<MiniGridListener>();
   private boolean enabled = true;
-  
+
   private Collection<XY> lastMoves = new HashSet<XY>();
   private ScribeBoard parent;
-  
+
   private MiniGrid() {
     data = new ScribeMark[3][3];
     for (XY xy : XY.allXYs()) {
@@ -40,7 +43,7 @@ public class MiniGrid {
       throw new ScribeException("You cannot over-write a square that has already been claimed.");
     }
     data[xy.y][xy.x] = mark;
-    if (mark != ScribeMark.EMPTY) { 
+    if (mark != ScribeMark.EMPTY) {
       updateRegions(xy, mark);
       notifyListenersOfMark(xy, mark);
     }
@@ -98,11 +101,11 @@ public class MiniGrid {
 
   public ScribeMark winner() {
     if (!this.isFull()) return ScribeMark.EMPTY;
-    
+
     Map<ScribeMark, Integer> points = new EnumMap<ScribeMark, Integer>(ScribeMark.class);
     points.put(ScribeMark.BLUE, 0);
     points.put(ScribeMark.RED, 0);
-    
+
     for (Region region : this.regions) {
       if (region.isGlyph()) {
         points.put(region.mark, points.get(region.mark)+region.size());
@@ -120,7 +123,7 @@ public class MiniGrid {
   List<Region> getRegions() {
     return Collections.unmodifiableList(regions);
   }
-  
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -145,11 +148,11 @@ public class MiniGrid {
     }
     return miniGrid;
   }
-  
+
   public void addMiniGridListener(MiniGridListener listener) {
     listeners.add(listener);
   }
-  
+
   private void notifyListenersOfMark(XY xy, ScribeMark mark) {
     for (MiniGridListener listener : listeners) {
       listener.miniGridMarked(this, xy, mark);
@@ -167,7 +170,7 @@ public class MiniGrid {
       listener.miniGridLastMovesChanged(this, getLastMoves());
     }
   }
-  
+
   void setEnabled(boolean enabled) {
     this.enabled = enabled;
     notifyListenersOfEnabledState();
@@ -183,7 +186,7 @@ public class MiniGrid {
       notifyListenersOfLastMovesChange();
     }
   }
-  
+
   void addLastMove(XY xy) {
     this.lastMoves.add(xy);
     notifyListenersOfLastMovesChange();
@@ -198,7 +201,8 @@ public class MiniGrid {
       this.set(xy, parent.whoseTurn());
     }
     catch (ScribeException e) {
-      // TODO provide more information to the user
+      Log.i(Constants.LOG_TAG, "Player attempted an illegal move:");
+      Log.i(Constants.LOG_TAG, "    " + e.getMessage());
     }
   }
 }

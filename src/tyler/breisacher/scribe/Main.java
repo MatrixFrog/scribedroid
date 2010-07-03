@@ -9,17 +9,22 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.AndroidRuntimeException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
+
+// TODO rules
+// TODO glyphs
+// TODO about
+// TODO make a WinnerDialog class with a CellView, instead of text, and the option to start a new game
+// TODO separate classes for the two types of MiniGridViews?
 
 public class Main extends Activity implements View.OnClickListener, ScribeListener, DialogInterface.OnClickListener {
 
   private ScribeBoard scribeBoard;
+  private ScribeMark winner;
 
   private CellView turnIndicator;
   private MiniGrid lastClickedMiniGrid;
@@ -31,7 +36,6 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.portrait);
-    Button testingButton = (Button) findViewById(R.id.testingButton);
     turnIndicator = (CellView) findViewById(R.id.whoseTurn);
     scribeBoardView = (ScribeBoardView) findViewById(R.id.scribeBoard);
 
@@ -40,7 +44,7 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
 
   private void startNewGame() {
     Log.i(Constants.LOG_TAG, "Starting new game");
-
+    winner = null;
     scribeBoard = new ScribeBoard();
     scribeBoardView.setScribeBoard(scribeBoard);
     scribeBoard.addListener(this);
@@ -78,14 +82,12 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
   @Override
   protected void onPrepareDialog(int id, Dialog dialog) {
     super.onPrepareDialog(id, dialog);
-    if (id == Constants.DialogId.MINIGRID) {
-      if (dialog instanceof MiniGridDialog) {
-        ((MiniGridDialog) dialog).setMiniGrid(this.lastClickedMiniGrid);
-      }
-      else {
-        throw new AndroidRuntimeException("id was " + Constants.DialogId.MINIGRID +
-            " so dialog should have been of type MiniGridDialog");
-      }
+    switch(id) {
+    case Constants.DialogId.MINIGRID:
+      ((MiniGridDialog) dialog).setMiniGrid(this.lastClickedMiniGrid);
+      break;
+    case Constants.DialogId.WINNER:
+      ((AlertDialog) dialog).setMessage(winner + " wins");
     }
   }
 
@@ -105,6 +107,8 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
                  .create();
     case Constants.DialogId.ILLEGAL_MOVE:
       return new AlertDialog.Builder(this).setMessage(R.string.msg_illegal_move).create();
+    case Constants.DialogId.WINNER:
+      return new AlertDialog.Builder(this).setMessage(winner.toString() + " wins").create();
     default:
       return null;
     }
@@ -113,7 +117,8 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
   @Override
   public void scribeBoardWon(ScribeBoard scribeBoard, ScribeMark winner) {
     if (this.scribeBoard == scribeBoard) {
-      // showDialog("You won!") or something
+      this.winner = winner;
+      showDialog(Constants.DialogId.WINNER);
     }
   }
 
@@ -131,14 +136,10 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
    */
   @Override
   public void onClick(View v) {
-    if (v instanceof MiniGridView) {
+    Log.v(Constants.LOG_TAG, "onClick(" + v + ") called");
+    if (v instanceof MiniGridView && v.isEnabled()) {
       this.lastClickedMiniGrid = ((MiniGridView) v).getMiniGrid();
-      if (this.lastClickedMiniGrid.isEnabled()) {
-        this.showDialog(Constants.DialogId.MINIGRID);
-      }
-      else {
-        this.alertIllegalMove();
-      }
+      this.showDialog(Constants.DialogId.MINIGRID);
     }
   }
 
