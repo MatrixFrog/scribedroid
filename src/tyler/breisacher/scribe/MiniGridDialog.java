@@ -22,7 +22,6 @@ public class MiniGridDialog extends Dialog {
     if (this.miniGrid == null) {
       throw new IllegalStateException("MiniGrid should have been set prior to onCreate being called.");
     }
-    super.onCreate(args);
     this.setTitle("Choose a square");
     this.setup();
   }
@@ -31,7 +30,7 @@ public class MiniGridDialog extends Dialog {
     this.miniGrid = miniGrid;
     this.setup();
   }
-  
+
   private void setup() {
     MiniGridView mgv = new MiniGridView(this.getContext(), Constants.MiniGridViewSize.LARGE);
     mgv.setMiniGrid(this.miniGrid);
@@ -40,8 +39,7 @@ public class MiniGridDialog extends Dialog {
       @Override
       public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
         MiniGridDialog.this.dismiss();
-      }      
+      }
     });
   }
-
 }

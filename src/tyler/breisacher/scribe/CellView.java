@@ -8,20 +8,19 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 public class CellView extends View {
 
   private ScribeMark mark = ScribeMark.EMPTY;
-  private int margin = 3;
   private int size = Constants.MiniGridViewSize.SMALL;
   private XY xy;
   private boolean lastMove;
 
   {
     this.setBackgroundColor(Color.BLACK);
+    this.setPadding(2, 2, 2, 2);
   }
 
   public CellView(Context context, AttributeSet attrs) {
@@ -47,29 +46,32 @@ public class CellView extends View {
 
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    Log.v(Constants.LOG_TAG, "Measuring " + this);
     WindowManager windowManager = (WindowManager) this.getContext().getSystemService(Context.WINDOW_SERVICE);
     int displayWidth = windowManager.getDefaultDisplay().getWidth();
     int displayHeight = windowManager.getDefaultDisplay().getHeight();
+
+    int dimension;
     switch (size) {
     case Constants.MiniGridViewSize.LARGE:
-      int largeDim = (Math.min(displayWidth, displayHeight)-30) / 3;
-      setMeasuredDimension(largeDim, largeDim);
+      dimension = (Math.min(displayWidth, displayHeight)-30) / 3;
       break;
     case Constants.MiniGridViewSize.SMALL:
     default:
-      int smallDim = (Math.min(displayWidth, displayHeight)-10) / 9;
-      setMeasuredDimension(smallDim, smallDim);
+      dimension = (Math.min(displayWidth, displayHeight)-20) / 9;
     }
+    setMeasuredDimension(dimension, dimension);
   }
 
   @Override
   protected void onDraw(Canvas canvas) {
-    Log.v(Constants.LOG_TAG, "Drawing " + this);
     super.onDraw(canvas);
     Paint paint = new Paint();
     paint.setColor(Settings.getColorForMark(this.mark, this.isEnabled()));
-    canvas.drawRoundRect(new RectF(margin, margin, this.getWidth() - margin, this.getHeight() - margin), 10, 10, paint);
+    canvas.drawRoundRect(new RectF(getPaddingLeft(),
+                                   getPaddingTop(),
+                                   this.getWidth() - getPaddingRight(),
+                                   this.getHeight() - getPaddingBottom()),
+                         10, 10, paint);
 
     if (this.lastMove) {
       paint.setColor(Settings.getLastMoveColorForMark(this.mark, this.isEnabled()));
@@ -83,5 +85,9 @@ public class CellView extends View {
 
   public XY getXY() {
     return xy;
+  }
+
+  public ScribeMark getMark() {
+    return this.mark;
   }
 }

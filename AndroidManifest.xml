@@ -12,7 +12,11 @@
             </intent-filter>
         </activity>
 
-    </application>
+    <activity android:name=".GlyphsViewer" android:screenOrientation="portrait">
+    <intent-filter><action android:name="android.intent.action.MAIN"></action>
+</intent-filter>
+	</activity>
+</application>
     <uses-sdk android:minSdkVersion="7" android:maxSdkVersion="8" android:targetSdkVersion="7"/>
 
 

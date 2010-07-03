@@ -1,7 +1,6 @@
 package tyler.breisacher.scribe.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +10,11 @@ import tyler.breisacher.scribe.Util;
 /**
  * The gameboard and some other data, such as whose turn it is.
  */
-public class ScribeBoard implements MiniGridListener {
+public class ScribeBoard {
   private MiniGrid[][] data = new MiniGrid[3][3];
   private Map<ScribeMark, GridPosition> lastMove = new EnumMap<ScribeMark, GridPosition>(ScribeMark.class);
-  private ScribeMark whoseTurn = ScribeMark.RED;
+  ScribeMark whoseTurn = ScribeMark.RED;
   private List<ScribeListener> listeners = new ArrayList<ScribeListener>();
-
   public ScribeBoard() {
     for (XY xy : XY.allXYs()) {
       MiniGrid miniGrid = new MiniGrid(this);
@@ -29,7 +27,7 @@ public class ScribeBoard implements MiniGridListener {
   }
 
   public MiniGrid get(int x, int y) {
-    return this.get(new XY(x,y));
+    return data[x][y];
   }
 
   public ScribeMark whoseTurn() {
@@ -65,7 +63,7 @@ public class ScribeBoard implements MiniGridListener {
       return;
     }
     XY xy = gridPosition.xy;
-    MiniGrid miniGrid = this.get(xy);
+    MiniGrid miniGrid = data[xy.x][xy.y];
     if (miniGrid.isFull()) {
       setAllMiniGridsEnabled(true);
     }
@@ -81,7 +79,7 @@ public class ScribeBoard implements MiniGridListener {
     }
   }
 
-  private void setWhoseTurn(ScribeMark mark) {
+  void setWhoseTurn(ScribeMark mark) {
     this.whoseTurn = mark;
     notifyListenersOfWhoseTurn();
   }
@@ -109,7 +107,7 @@ public class ScribeBoard implements MiniGridListener {
       // build a temporary "MiniGrid" for calculating the overall winner
       MiniGrid superGrid = new MiniGrid(this);
       for (XY xy : XY.allXYs()) {
-        superGrid.set(xy, this.get(xy).winner());
+        superGrid.set(xy, data[xy.x][xy.y].winner());
       }
       return superGrid.winner();
     case Majority:
@@ -132,7 +130,7 @@ public class ScribeBoard implements MiniGridListener {
 
   private void setAllMiniGridsEnabled(boolean enable) {
     for (XY xy : XY.allXYs()) {
-      this.get(xy).setEnabled(enable);
+      data[xy.x][xy.y].setEnabled(enable);
     }
   }
 
@@ -147,25 +145,12 @@ public class ScribeBoard implements MiniGridListener {
     return board;
   }
 
-  @Override
-  public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
-    lastMove.put(mark, new GridPosition(miniGrid, xy));
-    this.setWhoseTurn(mark.other());
-    update();
-  }
-
-  @Override
-  public void miniGridLastMovesChanged(MiniGrid miniGrid, Collection<XY> lastMoves) {
-    // No action
+  MiniGridListener miniGridListener = new DefaultMiniGridListener() {
+    @Override
+    public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
+      lastMove.put(mark, new GridPosition(miniGrid, xy));
+      setWhoseTurn(mark.other());
+      update();
+    }
   };
-
-  @Override
-  public void miniGridEnabled(MiniGrid miniGrid, boolean enabled) {
-    // No action
-  }
-
-  @Override
-  public void miniGridWon(MiniGrid miniGrid, ScribeMark winner) {
-    // No action
-  }
 }

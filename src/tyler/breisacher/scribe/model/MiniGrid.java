@@ -30,11 +30,11 @@ public class MiniGrid {
   public MiniGrid(ScribeBoard scribeBoard) {
     this();
     this.parent = scribeBoard;
-    this.addMiniGridListener(scribeBoard);
+    this.addMiniGridListener(scribeBoard.miniGridListener);
   }
 
   public void set(int x, int y, ScribeMark mark) {
-    set(new XY(x,y), mark);
+    set(XY.at(x,y), mark);
   }
 
   public void set(XY xy, ScribeMark mark) {
@@ -42,10 +42,13 @@ public class MiniGrid {
     if (mark != ScribeMark.EMPTY && this.get(xy) != ScribeMark.EMPTY) {
       throw new ScribeException("You cannot over-write a square that has already been claimed.");
     }
-    data[xy.y][xy.x] = mark;
+    data[xy.x][xy.y] = mark;
     if (mark != ScribeMark.EMPTY) {
       updateRegions(xy, mark);
       notifyListenersOfMark(xy, mark);
+    }
+    if (this.isFull()) {
+      notifyListenersOfMiniGridWon();
     }
   }
 
@@ -78,23 +81,23 @@ public class MiniGrid {
   }
 
   public ScribeMark get(int x, int y) {
-    return get(new XY(x,y));
+    return data[x][y];
   }
 
   public ScribeMark get(XY xy) {
-    return data[xy.y][xy.x];
+    return data[xy.x][xy.y];
   }
 
   public boolean isEmpty() {
     for (XY xy : XY.allXYs()) {
-      if (this.get(xy) != ScribeMark.EMPTY) return false;
+      if (this.data[xy.x][xy.y] != ScribeMark.EMPTY) return false;
     }
     return true;
   }
 
   public boolean isFull() {
     for (XY xy : XY.allXYs()) {
-      if (this.get(xy) == ScribeMark.EMPTY) return false;
+      if (data[xy.x][xy.y] == ScribeMark.EMPTY) return false;
     }
     return true;
   }
@@ -129,7 +132,7 @@ public class MiniGrid {
     StringBuilder sb = new StringBuilder();
     for (int y=0; y<3; y++) {
       for (int x=0; x<3; x++) {
-        sb.append(data[y][x].toChar());
+        sb.append(data[x][y].toChar());
       }
       if (y < 2) sb.append('\n'); // hacky!
     }
@@ -143,14 +146,16 @@ public class MiniGrid {
     string = string.replace("\n", "");
     MiniGrid miniGrid = new MiniGrid();
     int i=0;
-    for (XY xy : XY.allXYs()) {
-      miniGrid.set(xy, ScribeMark.fromChar(string.charAt(i++)));
+    for (int y=0; y<3; y++) {
+      for (int x=0; x<3; x++) {
+        miniGrid.set(XY.at(x, y), ScribeMark.fromChar(string.charAt(i++)));
+      }
     }
     return miniGrid;
   }
 
   public void addMiniGridListener(MiniGridListener listener) {
-    listeners.add(listener);
+    if (listener != null) listeners.add(listener);
   }
 
   private void notifyListenersOfMark(XY xy, ScribeMark mark) {
@@ -168,6 +173,12 @@ public class MiniGrid {
   private void notifyListenersOfLastMovesChange() {
     for (MiniGridListener listener : listeners) {
       listener.miniGridLastMovesChanged(this, getLastMoves());
+    }
+  }
+
+  private void notifyListenersOfMiniGridWon() {
+    for (MiniGridListener listener : listeners) {
+      listener.miniGridWon(this, this.winner());
     }
   }
 

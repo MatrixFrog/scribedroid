@@ -9,11 +9,11 @@ import tyler.breisacher.scribe.model.MiniGridListener;
 import tyler.breisacher.scribe.model.ScribeMark;
 import tyler.breisacher.scribe.model.XY;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 public class MiniGridView extends TableLayout implements MiniGridListener, OnClickListener {
   private MiniGrid miniGrid;
@@ -22,9 +22,8 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   public MiniGridView(Context context, int size) {
     super(context);
     this.size = size;
-    if (context instanceof Main) {
-      this.setOnClickListener((Main) context);
-    }
+
+    this.setPadding(2, 2, 2, 2);
   }
 
   public MiniGrid getMiniGrid() {
@@ -38,14 +37,13 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   }
 
   private void rebuildLayout() {
-    Log.v(Constants.LOG_TAG, this + ": rebuilding layout");
     this.removeAllViews();
     for (int y=0; y<3; y++) {
       TableRow row = new TableRow(this.getContext());
       this.addView(row);
       for (int x=0; x<3; x++) {
         CellView cell = new CellView(this.getContext(), this.size);
-        cell.setXY(new XY(x, y));
+        cell.setXY(XY.at(x, y));
         cell.setMark(this.miniGrid.get(x, y));
         if (size == Constants.MiniGridViewSize.LARGE)
           cell.setOnClickListener(this);
@@ -79,7 +77,6 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
 
   @Override
   public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
-    Log.i(Constants.LOG_TAG, "MiniGrid[" + xy + "] marked with " + mark);
     if (miniGrid == this.miniGrid) {
       this.get(xy).setMark(mark);
     }
@@ -102,14 +99,25 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
 
   @Override
   public void miniGridWon(MiniGrid miniGrid, ScribeMark winner) {
-    // TODO Decide how the MiniGridView should change when the MiniGrid is won.
+    if (this.size == Constants.MiniGridViewSize.SMALL) {
+      Toast.makeText(this.getContext(), winner + " wins the MiniGrid!", Toast.LENGTH_SHORT).show();
+      this.setEnabled(false);
+      postInvalidate();
+    }
   }
 
   @Override
   public void setEnabled(boolean enabled) {
     super.setEnabled(enabled);
-    for (CellView cellView : allCellViews()) {
-      cellView.setEnabled(enabled);
+    if (this.miniGrid.isFull()) {
+      for (CellView cellView : allCellViews()) {
+        cellView.setEnabled(cellView.getMark() == this.miniGrid.winner());
+      }
+    }
+    else {
+      for (CellView cellView : allCellViews()) {
+        cellView.setEnabled(enabled);
+      }
     }
   }
 }
