@@ -9,22 +9,22 @@ import java.util.Map.Entry;
 
 import tyler.breisacher.scribe.model.Glyphs;
 import tyler.breisacher.scribe.model.XY;
-import android.app.ListActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
-public class GlyphActivity extends ListActivity implements OnClickListener {
+public class GlyphActivity extends Activity implements OnClickListener {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    Log.i(Constants.LOG_TAG, "---");
     super.onCreate(savedInstanceState);
 
-    //View backButton = getLayoutInflater().inflate(R.layout.back_button, this.getListView());
-    //this.getListView().addFooterView(backButton);
+    setContentView(R.layout.glyph_activity);
+    GridView grid = (GridView) findViewById(R.id.glyph_grid);
+    findViewById(R.id.button_back_to_game).setOnClickListener(this);
 
     List<Map<String, Object>> glyphsList = new ArrayList<Map<String, Object>>();
     for (Entry<String, Set<XY>> e : Glyphs.ALL_GLYPHS.entrySet()) {
@@ -50,7 +50,7 @@ public class GlyphActivity extends ListActivity implements OnClickListener {
       }
     };
     a.setViewBinder(viewBinder);
-    setListAdapter(a);
+    grid.setAdapter(a);
   }
 
   @Override

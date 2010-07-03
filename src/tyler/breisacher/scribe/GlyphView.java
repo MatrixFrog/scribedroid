@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-public class GlyphView extends View {
+public class GlyphView extends View { // TODO pick the sizes in a non-hardcoded way
 
   private Set<XY> glyph;
 
@@ -22,10 +22,7 @@ public class GlyphView extends View {
 
   public GlyphView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    paint.setColor(Color.WHITE);
     paint.setStyle(Style.FILL);
-    setMinimumWidth(30);
-    setMinimumHeight(30);
   }
 
   private int centerX(int x) {
@@ -54,8 +51,12 @@ public class GlyphView extends View {
     super.onDraw(canvas);
     for (XY xy : XY.allXYs()) {
       if (glyph.contains(xy)) {
-        canvas.drawCircle(centerX(xy.x), centerY(xy.y), getWidth()/6, paint);
+        paint.setColor(Color.WHITE);
       }
+      else {
+        paint.setColor(Color.DKGRAY);
+      }
+      canvas.drawCircle(centerX(xy.x), centerY(xy.y), getWidth()/8, paint);
     }
   }
 
