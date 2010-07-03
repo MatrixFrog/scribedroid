@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="description">The abstract game Scribe, designed by Mark Steere</string>
-    <string name="hello">Hello World, Main!</string>
+    <string name="app_description">The abstract game Scribe, designed by Mark Steere</string>
+    
     <string name="app_name">Scribe</string>
 
-<string name="illegalMove">&quot;You cannot play in that mini-grid at this time&quot;</string>
-<string name="currentPlayer">Current Player: </string>
+<string name="msg_illegal_move">&quot;You cannot play in that mini-grid at this time&quot;</string>
+<string name="current_player">Current Player: </string>
+<string name="msg_confirm_new_game">Are you sure you want to start a new game? The current game will be lost.</string>
 </resources>

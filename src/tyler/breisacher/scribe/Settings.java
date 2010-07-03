@@ -16,7 +16,7 @@ public abstract class Settings {
       return Color.WHITE;
     }
   }
-  
+
   public static int getDisabledColorForMark(ScribeMark mark) {
     switch (mark) {
     case BLUE:
@@ -34,7 +34,7 @@ public abstract class Settings {
   }
 
   public static int getLastMoveColorForMark(ScribeMark mark, boolean enabled) {
-    return Color.BLACK;
+    return Color.WHITE;
   }
-  
+
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menuitem_new_game"
+          android:title="New Game" 
+          android:icon="@android:drawable/ic_menu_edit"
+          />
+    <item android:id="@+id/menuitem_settings" 
+          android:title="Settings" 
+          android:icon="@android:drawable/ic_menu_preferences"
+          />
+    <item android:id="@+id/menuitem_exit"
+          android:title="Exit Scribe" 
+          android:icon="@android:drawable/ic_menu_close_clear_cancel"
+          />
+</menu>

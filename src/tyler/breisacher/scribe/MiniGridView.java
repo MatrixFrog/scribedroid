@@ -9,6 +9,7 @@ import tyler.breisacher.scribe.model.MiniGridListener;
 import tyler.breisacher.scribe.model.ScribeMark;
 import tyler.breisacher.scribe.model.XY;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
@@ -37,6 +38,7 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   }
 
   private void rebuildLayout() {
+    Log.i(Constants.LOG_TAG, this + ": rebuilding layout");
     this.removeAllViews();
     for (int y=0; y<3; y++) {
       TableRow row = new TableRow(this.getContext());
@@ -45,7 +47,7 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
         CellView cell = new CellView(this.getContext(), this.size);
         cell.setXY(new XY(x, y));
         cell.setMark(this.miniGrid.get(x, y));
-        if (size == Constants.MiniGridViewSize.LARGE) 
+        if (size == Constants.MiniGridViewSize.LARGE)
           cell.setOnClickListener(this);
         row.addView(cell);
       }
@@ -64,10 +66,10 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
     }
     return list;
   }
-  
+
   /**
    * If this is a large (in-dialog) MiniGridView then each cell will have this
-   * as its OnClickListener. 
+   * as its OnClickListener.
    */
   @Override
   public void onClick(View v) {
@@ -77,6 +79,7 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
 
   @Override
   public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
+    Log.i(Constants.LOG_TAG, miniGrid + "[" + xy + "] marked with " + mark);
     if (miniGrid == this.miniGrid) {
       this.get(xy).setMark(mark);
     }
@@ -86,7 +89,7 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   public void miniGridEnabled(MiniGrid miniGrid, boolean enabled) {
     this.setEnabled(enabled);
   }
-  
+
   @Override
   public void miniGridLastMovesChanged(MiniGrid miniGrid, Collection<XY> lastMoves) {
     for (CellView cellView : allCellViews()) {

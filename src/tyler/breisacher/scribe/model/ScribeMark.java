@@ -1,7 +1,7 @@
 package tyler.breisacher.scribe.model;
 
 
-public enum ScribeMark {
+public enum ScribeMark { 
 	BLUE('+'), RED('O'), EMPTY('-');
 
 	ScribeMark(char ch) {
