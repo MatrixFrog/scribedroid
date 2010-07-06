@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -41,7 +40,6 @@ public class CellView extends View {
 
   public CellView(Context context, int size) {
     super(context);
-    Log.d(Constants.LOG_TAG, "called second constructor");
     this.size = size;
   }
 

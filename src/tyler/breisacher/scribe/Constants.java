@@ -7,6 +7,7 @@ public final class Constants {
     public static final int ILLEGAL_MOVE = 2;
     public static final int WINNER       = 3;
     public static final int EXIT         = 4;
+    public static final int ABOUT        = 5;
   }
   public static final class MiniGridViewSize {
     public static final int SMALL = 0;
