@@ -15,19 +15,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 // TODO rules
-// TODO glyphs
 // TODO about
 // TODO make a WinnerDialog class with a CellView, instead of text, and the option to start a new game
 // TODO separate classes for the two types of MiniGridViews?
 
-public class Main extends Activity implements View.OnClickListener, ScribeListener, DialogInterface.OnClickListener {
+public class Main extends Activity implements View.OnClickListener,
+    ScribeListener, DialogInterface.OnClickListener {
 
   private ScribeBoard scribeBoard;
   private ScribeMark winner;
 
-  private CellView turnIndicator;
   private MiniGrid lastClickedMiniGrid;
   private ScribeBoardView scribeBoardView;
 
@@ -37,7 +37,6 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.main);
-    turnIndicator = (CellView) findViewById(R.id.whoseTurn);
     scribeBoardView = (ScribeBoardView) findViewById(R.id.scribeBoard);
 
     startNewGame();
@@ -49,8 +48,6 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
     scribeBoard = new ScribeBoard();
     scribeBoardView.setScribeBoard(scribeBoard);
     scribeBoard.addListener(this);
-
-    turnIndicator.setMark(this.scribeBoard.whoseTurn());
   }
 
   @Override
@@ -62,7 +59,7 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     super.onOptionsItemSelected(item);
-    switch(item.getItemId()) {
+    switch (item.getItemId()) {
     case R.id.menuitem_glyphs:
       Log.i(Constants.LOG_TAG, "Creating GlyphsViewer");
       startActivity(new Intent(this, GlyphActivity.class));
@@ -70,7 +67,8 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
       break;
     case R.id.menuitem_rules:
       // temporarily, until a Rules activity is created:
-      Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.marksteeregames.com/Scribe_rules.pdf"));
+      Intent i = new Intent(Intent.ACTION_VIEW, Uri
+          .parse("http://www.marksteeregames.com/Scribe_rules.pdf"));
       startActivity(i);
       break;
     case R.id.menuitem_new_game:
@@ -92,7 +90,7 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
   @Override
   protected void onPrepareDialog(int id, Dialog dialog) {
     super.onPrepareDialog(id, dialog);
-    switch(id) {
+    switch (id) {
     case Constants.DialogId.MINIGRID:
       ((MiniGridDialog) dialog).setMiniGrid(this.lastClickedMiniGrid);
       break;
@@ -110,33 +108,31 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
       miniGridDialog.setMiniGrid(this.lastClickedMiniGrid);
       return miniGridDialog;
     case Constants.DialogId.NEW_GAME:
-      return new AlertDialog.Builder(this)
-                .setMessage(R.string.msg_confirm_new_game)
-                .setPositiveButton(android.R.string.yes, this)
-                .setNegativeButton(android.R.string.no, this)
-                .create();
+      return new AlertDialog.Builder(this).setMessage(
+          R.string.msg_confirm_new_game).setPositiveButton(
+          android.R.string.yes, this).setNegativeButton(android.R.string.no,
+          this).create();
     case Constants.DialogId.ILLEGAL_MOVE:
-      return new AlertDialog.Builder(this).setMessage(R.string.msg_illegal_move).create();
-    case Constants.DialogId.WINNER:
       return new AlertDialog.Builder(this)
-                .setMessage(this.winner + " wins! Play again?")
-                .setPositiveButton(android.R.string.yes, this)
-                .setNegativeButton(android.R.string.no, this)
-                .create();
+          .setMessage(R.string.msg_illegal_move).create();
+    case Constants.DialogId.WINNER:
+      return new AlertDialog.Builder(this).setMessage(
+          this.winner + " wins! Play again?").setPositiveButton(
+          android.R.string.yes, this).setNegativeButton(android.R.string.no,
+          this).create();
     case Constants.DialogId.EXIT:
       return new AlertDialog.Builder(this)
-                .setMessage(R.string.msg_confirm_exit)
-                .setPositiveButton(R.string.exit_scribe, new DialogInterface.OnClickListener() {
-                  public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                  }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                  public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                  }
-                })
-                .create();
+          .setMessage(R.string.msg_confirm_exit).setPositiveButton(
+              R.string.exit_scribe, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                  finish();
+                }
+              }).setNegativeButton(android.R.string.cancel,
+              new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                  dialog.cancel();
+                }
+              }).create();
     default:
       return null;
     }
@@ -158,7 +154,19 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
   @Override
   public void whoseTurnChanged(ScribeBoard scribeBoard, ScribeMark currentPlayer) {
     if (this.scribeBoard == scribeBoard) {
-      this.turnIndicator.setMark(currentPlayer);
+      currentPlayerIs(currentPlayer);
+    }
+  }
+
+  private void currentPlayerIs(ScribeMark currentPlayer) {
+    switch (currentPlayer) {
+    case RED:
+      ((TextView) findViewById(R.id.player1_text)).setText(R.string.its_your_turn);
+      ((TextView) findViewById(R.id.player2_text)).setText(R.string.its_not_your_turn);
+      break;
+    case BLUE:
+      ((TextView) findViewById(R.id.player1_text)).setText(R.string.its_not_your_turn);
+      ((TextView) findViewById(R.id.player2_text)).setText(R.string.its_your_turn);
     }
   }
 
@@ -167,7 +175,7 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
    */
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    switch(which) {
+    switch (which) {
     case DialogInterface.BUTTON_POSITIVE:
       startNewGame();
     case DialogInterface.BUTTON_NEGATIVE:
@@ -178,8 +186,8 @@ public class Main extends Activity implements View.OnClickListener, ScribeListen
 
   /**
    * This activity serves as the OnClickListener for each of the MiniGridViews
-   * it contains. When one of them is clicked, it creates a dialog which shows
-   * a view of the same MiniGrid.
+   * it contains. When one of them is clicked, it creates a dialog which shows a
+   * view of the same MiniGrid.
    */
   @Override
   public void onClick(View v) {

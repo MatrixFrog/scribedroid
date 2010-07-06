@@ -1,0 +1,8 @@
+<resources>
+  <declare-styleable
+    name="CellView"
+  >
+    <attr
+      name="mark" format="string"/>
+  </declare-styleable>
+</resources>

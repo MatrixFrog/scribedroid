@@ -1,19 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">The abstract game Scribe, designed by Mark Steere</string>
-    
-    <string name="app_name">Scribe</string>
+  <string
+    name="app_description"
+  >The abstract game Scribe, designed by Mark Steere</string>
 
-<string name="msg_illegal_move">You cannot play in that mini-grid at this time</string>
-<string name="current_player">Current Player: </string>
-<string name="msg_confirm_new_game">Are you sure you want to start a new game? The current game will be lost.</string>
-<string name="msg_confirm_exit">Are you sure you want to exit Scribe?</string>
-<string name="exit_scribe">Exit Scribe</string>
-<string name="new_game">New Game</string>
-<string name="preferences">Preferences</string>
-<string name="glyphs">Glyphs</string>
-<string name="rules">Rules</string>
-<string name="about">About</string>
-<string name="back">Back to game</string>
+  <string
+    name="app_name"
+  >Scribe</string>
 
+  <string
+    name="msg_illegal_move"
+  >You cannot play in that mini-grid at this time</string>
+  <string
+    name="current_player"
+  >Current Player: </string>
+  <string
+    name="msg_confirm_new_game"
+  >Are you sure you want to start a new game? The current game will be
+    lost.</string>
+  <string
+    name="msg_confirm_exit"
+  >Are you sure you want to exit Scribe?</string>
+  <string
+    name="exit_scribe"
+  >Exit Scribe</string>
+  <string
+    name="new_game"
+  >New Game</string>
+  <string
+    name="preferences"
+  >Preferences</string>
+  <string
+    name="glyphs"
+  >Glyphs</string>
+  <string
+    name="rules"
+  >Rules</string>
+  <string
+    name="about"
+  >About</string>
+  <string
+    name="back"
+  >Back to game</string>
+
+  <string
+    name="its_your_turn"
+  >It\'s your turn! </string>
+  <string
+    name="its_not_your_turn"
+  >Wait for opponent</string>
 </resources>

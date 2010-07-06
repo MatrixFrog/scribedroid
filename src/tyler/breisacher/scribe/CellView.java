@@ -3,11 +3,13 @@ package tyler.breisacher.scribe;
 import tyler.breisacher.scribe.model.ScribeMark;
 import tyler.breisacher.scribe.model.XY;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -25,10 +27,21 @@ public class CellView extends View {
 
   public CellView(Context context, AttributeSet attrs) {
     super(context, attrs);
+
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CellView);
+
+    CharSequence markString = a.getString(R.styleable.CellView_mark);
+    if (markString != null) {
+           if (markString.equals("0")) setMark(ScribeMark.EMPTY);
+      else if (markString.equals("1")) setMark(ScribeMark.RED);
+      else if (markString.equals("2")) setMark(ScribeMark.BLUE);
+      else throw new RuntimeException("Illegal value for 'mark' attribute");
+    }
   }
 
   public CellView(Context context, int size) {
     super(context);
+    Log.d(Constants.LOG_TAG, "called second constructor");
     this.size = size;
   }
 
