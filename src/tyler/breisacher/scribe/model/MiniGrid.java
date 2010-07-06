@@ -20,6 +20,8 @@ public class MiniGrid {
   private Collection<XY> lastMoves = new HashSet<XY>();
   private ScribeBoard parent;
 
+  private ScribeMark winner;
+
   private MiniGrid() {
     data = new ScribeMark[3][3];
     for (XY xy : XY.allXYs()) {
@@ -103,28 +105,27 @@ public class MiniGrid {
   }
 
   public ScribeMark winner() {
-    if (!this.isFull()) return ScribeMark.EMPTY;
-
-    Map<ScribeMark, Integer> points = new EnumMap<ScribeMark, Integer>(ScribeMark.class);
-    points.put(ScribeMark.BLUE, 0);
-    points.put(ScribeMark.RED, 0);
-
-    for (Region region : this.regions) {
-      if (region.isGlyph()) {
-        points.put(region.mark, points.get(region.mark)+region.size());
+    if (winner == null) {
+      if (!this.isFull())
+        return ScribeMark.EMPTY;
+      Map<ScribeMark, Integer> points = new EnumMap<ScribeMark, Integer>(
+          ScribeMark.class);
+      points.put(ScribeMark.BLUE, 0);
+      points.put(ScribeMark.RED, 0);
+      for (Region region : this.regions) {
+        if (region.isGlyph()) {
+          points.put(region.mark, points.get(region.mark) + region.size());
+        }
       }
+      if (points.get(ScribeMark.BLUE) == points.get(ScribeMark.RED))
+        throw new ScribeException(
+            "There should never be a tie for a single 3x3 grid.");
+      if (points.get(ScribeMark.BLUE) > points.get(ScribeMark.RED))
+        winner = ScribeMark.BLUE;
+      else
+        winner = ScribeMark.RED;
     }
-    if (points.get(ScribeMark.BLUE) == points.get(ScribeMark.RED))
-      throw new ScribeException("There should never be a tie for a single 3x3 grid.");
-
-    if (points.get(ScribeMark.BLUE) > points.get(ScribeMark.RED))
-      return ScribeMark.BLUE;
-    else
-      return ScribeMark.RED;
-  }
-
-  List<Region> getRegions() {
-    return Collections.unmodifiableList(regions);
+    return winner;
   }
 
   @Override

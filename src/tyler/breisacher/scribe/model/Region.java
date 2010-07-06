@@ -6,6 +6,7 @@ import java.util.Set;
 
 public class Region extends HashSet<XY> {
   ScribeMark mark;
+  private Region normalized = null;
 
   public Region(XY xy, ScribeMark square) {
     this.add(xy);
@@ -21,17 +22,19 @@ public class Region extends HashSet<XY> {
    * translated up and left as far as possible.
    */
   private Region normalized() {
+    if (normalized == null) {
     int minX = Integer.MAX_VALUE;
     int minY = Integer.MAX_VALUE;
     for (XY xy : this) {
       minX = Math.min(minX, xy.x);
       minY = Math.min(minY, xy.y);
     }
-    Region normalizedRegion = new Region(this.mark);
+    normalized = new Region(this.mark);
     for (XY xy : this) {
-      normalizedRegion.add(XY.at(xy.x-minX, xy.y-minY));
+      normalized.add(XY.at(xy.x-minX, xy.y-minY));
     }
-    return normalizedRegion;
+    }
+    return normalized;
   }
 
   /**
