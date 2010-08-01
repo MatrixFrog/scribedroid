@@ -1,60 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string
-    name="app_description"
-  >
-    The abstract game Scribe, designed by Mark Steere
-  </string>
-  <string
-    name="app_name"
-  >
-    Scribe
-  </string>
+  <string name="app_name">Scribe</string>
+  <string name="app_description">The abstract game Scribe, designed by Mark Steere</string>
 
-  <string
-    name="msg_illegal_move"
-  >You cannot play in that mini-grid at this time</string>
-  <string
-    name="current_player"
-  >Current Player: </string>
-  <string
-    name="msg_confirm_new_game"
-  >Are you sure you want to start a new game? The current game will be
-    lost.</string>
-  <string
-    name="msg_confirm_exit"
-  >Are you sure you want to exit Scribe?</string>
-  <string
-    name="exit_scribe"
-  >Exit Scribe</string>
-  <string
-    name="new_game"
-  >New Game</string>
-  <string
-    name="preferences"
-  >Preferences</string>
-  <string
-    name="glyphs"
-  >Glyphs</string>
-  <string
-    name="rules"
-  >Rules</string>
-  <string
-    name="about"
-  >About</string>
-  <string
-    name="back"
-  >Back to game</string>
+  <string name="msg_illegal_move">You cannot play in that mini-grid at this time</string>
+  <string name="current_player">Current Player: </string>
+  <string name="msg_confirm_new_game">Are you sure you want to start a new game? 
+   The current game will be lost.</string>
+  <string name="msg_confirm_exit">Are you sure you want to exit Scribe?</string>
+  <string name="exit_scribe">Exit Scribe</string>
+  <string name="new_game">New Game</string>
+  <string name="preferences">Preferences</string>
+  <string name="glyphs">Glyphs</string>
+  <string name="rules">Rules</string>
+  <string name="about">About</string>
+  <string name="back">Back</string>
 
-  <string
-    name="its_your_turn"
-  >It\'s your turn! </string>
-  <string
-    name="its_not_your_turn"
-  >Wait for opponent</string>
-  <string
-    name="about_dialog_text"
-  >
+  <string name="its_your_turn">It\'s your turn!</string>
+  <string name="its_not_your_turn">Wait for opponent</string>
+  <string name="about_dialog_text">
     Game Design: Mark Steere (www.marksteeregames.com)\n\n
     Application
     design and development: Tyler Breisacher
@@ -77,13 +41,16 @@ was in the lower left corner of a mini grid, you must make your next move somewh
 in the lower left mini grid. If your last move points to a completely
 filled mini grid, you can make your next move anywhere in the super grid. Mini grids
 where you are not allowed to play appear \"greyed out\" in this version of the game.
-Each player\'s most recent move is indicated by a white dot as shown.</string>
-<string name="rules_object">Each glyph is worth the number of dots that compose it. For
-example the J is worth six points. A glyph also represents its own mirror image and
-rotations. Glyphs appearing as a subset of a larger group don’t count.
-When a mini grid is completely filled, the glyph points are tallied and the high score wins.
+Each player\'s most recent move is indicated by a white dot.</string>
+<string name="rules_object">Press \"menu\" to see the 19 glyphs of Scribe. Each 
+glyph is worth the number of dots that compose it. For example the J is worth 
+six points. A glyph also represents its own mirror image and rotations. Glyphs 
+appearing as a subset of a larger group don’t count. When a mini grid is completely
+filled, the glyph points are tallied and the high score wins.
+
 Majority Version: Whoever wins the majority of the nine mini grids wins overall. 
+
 Superglyph Version: Players form super glyphs on the super grid with their winning mini grids.</string>
 
-<string name="rules_copyright">Copyright \u00a9 by Mark Steere, October 2006</string>
+<string name="rules_copyright">Original rules copyright \u00a9 by Mark Steere, October 2006. Modified slightly for the Android version.</string>
 </resources>
