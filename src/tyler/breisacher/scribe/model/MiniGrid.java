@@ -22,10 +22,10 @@ public class MiniGrid {
 
   private ScribeMark winner;
 
-  private MiniGrid() {
+  MiniGrid() {
     data = new ScribeMark[3][3];
     for (XY xy : XY.allXYs()) {
-      this.set(xy, ScribeMark.EMPTY);
+      this.data[xy.y][xy.x] = ScribeMark.EMPTY;
     }
   }
 

@@ -5,8 +5,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import tyler.breisacher.scribe.Util;
-
 /**
  * The gameboard and some other data, such as whose turn it is.
  */
@@ -53,7 +51,12 @@ public class ScribeBoard {
   }
 
   private void update() {
-    checkForGameOver();
+    if (this.isFull()) {
+      notifyListenersOfWinner(winner());
+    }
+    else {
+      setWhoseTurn(whoseTurn.other());
+    }
     enableMiniGrids();
 
     for (XY xy : XY.allXYs()) {
@@ -79,12 +82,6 @@ public class ScribeBoard {
     else {
       setAllMiniGridsEnabled(false);
       miniGrid.setEnabled(true);
-    }
-  }
-
-  private void checkForGameOver() {
-    if (this.isFull()) {
-      notifyListenersOfWinner(winner());
     }
   }
 
@@ -114,7 +111,7 @@ public class ScribeBoard {
     switch(Settings.getGameMode()) {
     case SuperGlyph:
       // build a temporary "MiniGrid" for calculating the overall winner
-      MiniGrid superGrid = new MiniGrid(this);
+      MiniGrid superGrid = new MiniGrid();
       for (XY xy : XY.allXYs()) {
         superGrid.set(xy, data[xy.x][xy.y].winner());
       }
@@ -143,22 +140,10 @@ public class ScribeBoard {
     }
   }
 
-  // Probably not to be used in production.
-  public static ScribeBoard generateRandomBoard() {
-    ScribeBoard board = new ScribeBoard();
-    for (XY miniGridXY : XY.allXYs()) {
-      for (XY cellXY : XY.allXYs()) {
-        board.get(miniGridXY).set(cellXY, Util.getRandomMark());
-      }
-    }
-    return board;
-  }
-
   MiniGridListener miniGridListener = new DefaultMiniGridListener() {
     @Override
     public void miniGridMarked(MiniGrid miniGrid, XY xy, ScribeMark mark) {
       lastMove.put(mark, new GridPosition(miniGrid, xy));
-      setWhoseTurn(mark.other());
       update();
     }
   };

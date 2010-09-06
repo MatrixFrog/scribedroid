@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +29,6 @@ public class Main extends Activity implements View.OnClickListener,
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    Log.i(Constants.LOG_TAG, "Main.onCreate called");
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.main);
@@ -43,7 +41,6 @@ public class Main extends Activity implements View.OnClickListener,
   }
 
   void startNewGame() {
-    Log.i(Constants.LOG_TAG, "Starting new game");
     winner = null;
     scribeBoard = new ScribeBoard();
     scribeBoardView.setScribeBoard(scribeBoard);
@@ -111,6 +108,10 @@ public class Main extends Activity implements View.OnClickListener,
   @Override
   protected void onPrepareDialog(int id, Dialog dialog) {
     super.onPrepareDialog(id, dialog);
+    prepareDialog(id, dialog);
+  }
+
+  private void prepareDialog(int id, Dialog dialog) {
     switch (id) {
     case Constants.DialogId.MINIGRID:
       ((MiniGridDialog) dialog).setMiniGrid(this.lastClickedMiniGrid);
@@ -145,7 +146,7 @@ public class Main extends Activity implements View.OnClickListener,
       Dialog dialog = new AlertDialog.Builder(this)
                          .setPositiveButton(android.R.string.yes, this)
                          .setNegativeButton(android.R.string.no, this).create();
-      this.onPrepareDialog(id, dialog);
+      this.prepareDialog(id, dialog);
       return dialog;
     case Constants.DialogId.EXIT:
       return new AlertDialog.Builder(this)
@@ -215,9 +216,7 @@ public class Main extends Activity implements View.OnClickListener,
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    Log.i(Constants.LOG_TAG, "onSharedPreferenceChanged");
     if (sharedPreferences == PreferenceManager.getDefaultSharedPreferences(this)) {
-      Log.i(Constants.LOG_TAG, "sharedPreferences are this app\'s");
       if (key.equals("gameMode")) {
         updateGameMode();
       }
@@ -226,7 +225,6 @@ public class Main extends Activity implements View.OnClickListener,
 
   private void updateGameMode() {
     String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("gameMode", "majority");
-    Log.i(Constants.LOG_TAG, "mode=" + mode);
     int index = mode.equals("majority") ? 0 : 1;
     String[] gameModeEntries = this.getResources().getStringArray(R.array.gameModeEntries);
 
