@@ -21,6 +21,7 @@
   <string name="market">Rate/Comment</string>
   <string name="back">Back</string>
 
+  <string name="make_move">make your move.</string>
   <string name="its_your_turn">It\'s your turn!</string>
   <string name="its_not_your_turn">Wait for opponent</string>
   <string name="wins_mini_grid">wins the mini grid!</string>

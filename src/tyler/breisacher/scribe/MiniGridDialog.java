@@ -26,8 +26,10 @@ public class MiniGridDialog extends Dialog {
     this.setup();
   }
 
-  public void setMiniGrid(MiniGrid miniGrid) {
+  public void setValues(MiniGrid miniGrid, ScribeMark whoseTurn) {
     this.miniGrid = miniGrid;
+    this.setTitle(Util.scribeMarkName(this.getContext(), whoseTurn) + ", " +
+                  this.getContext().getString(R.string.make_move));
     this.setup();
   }
 

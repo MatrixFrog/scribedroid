@@ -118,7 +118,8 @@ public class Main extends Activity implements View.OnClickListener,
   private void prepareDialog(int id, Dialog dialog) {
     switch (id) {
     case Constants.DialogId.MINIGRID:
-      ((MiniGridDialog) dialog).setMiniGrid(this.lastClickedMiniGrid);
+      MiniGridDialog miniGridDialog = (MiniGridDialog) dialog;
+      miniGridDialog.setValues(this.lastClickedMiniGrid, this.scribeBoard.whoseTurn());
       break;
     case Constants.DialogId.WINNER:
       ((AlertDialog) dialog).setMessage(Util.scribeMarkName(this, this.winner) + " " + this.getString(R.string.wins));
@@ -139,7 +140,7 @@ public class Main extends Activity implements View.OnClickListener,
       return aboutDialog;
     case Constants.DialogId.MINIGRID:
       MiniGridDialog miniGridDialog = new MiniGridDialog(this);
-      miniGridDialog.setMiniGrid(this.lastClickedMiniGrid);
+      prepareDialog(id, miniGridDialog);
       return miniGridDialog;
     case Constants.DialogId.NEW_GAME:
       return new AlertDialog.Builder(this)
