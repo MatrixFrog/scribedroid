@@ -28,8 +28,9 @@
   <string name="wins">wins! Play again?</string>
   <string name="about_dialog_text">
     Game Design: <a href="http://www.marksteeregames.com">Mark Steere</a>\n\n
-    Android app by: <a href="http://github.com/MatrixFrog">Tyler Breisacher</a>\n\n
-    Heavily inspired by: <a href="http://superdupergames.org">Super Duper Games</a> 
+    Android app by: <a href="market://search?q=pub:&quot;Tyler Breisacher&quot;">Tyler Breisacher</a>\n\n
+    Heavily inspired by: <a href="http://superdupergames.org">Super Duper Games</a>\n\n
+    Feature requests? Bug reports? <a href="http://github.com/MatrixFrog/scribedroid/issues">Click here</a>
   </string>
 
 <string name="gameMode">gameMode</string>  

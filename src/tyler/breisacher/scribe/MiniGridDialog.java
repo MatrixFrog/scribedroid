@@ -11,7 +11,6 @@ import android.os.Bundle;
 public class MiniGridDialog extends Dialog {
 
   private MiniGrid miniGrid;
-
   public MiniGridDialog(Context context) {
     super(context);
   }
@@ -19,11 +18,7 @@ public class MiniGridDialog extends Dialog {
   @Override
   protected void onCreate(Bundle args) {
     super.onCreate(args);
-    if (this.miniGrid == null) {
-      throw new IllegalStateException("MiniGrid should have been set prior to onCreate being called.");
-    }
-    this.setTitle("Choose a square");
-    this.setup();
+    this.setCanceledOnTouchOutside(true);
   }
 
   public void setValues(MiniGrid miniGrid, ScribeMark whoseTurn) {

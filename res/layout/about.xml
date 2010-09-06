@@ -3,5 +3,6 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:text="@string/about_dialog_text"
-    android:textSize="20sp"
+    android:textSize="16sp"
+    android:textColor="@android:color/white"
   />
