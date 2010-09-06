@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -47,7 +46,6 @@ public class GlyphView extends View {
 
   @Override
   protected void onDraw(Canvas canvas) {
-    Log.i(Constants.LOG_TAG, getWidth() + " " + getHeight());
     super.onDraw(canvas);
     for (XY xy : XY.allXYs()) {
       if (glyph.contains(xy)) {

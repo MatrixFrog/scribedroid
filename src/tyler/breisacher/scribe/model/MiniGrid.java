@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import tyler.breisacher.scribe.Constants;
-import android.util.Log;
-
 public class MiniGrid {
   private final ScribeMark[][] data;
   List<Region> regions = new ArrayList<Region>();
@@ -213,8 +210,7 @@ public class MiniGrid {
       this.set(xy, parent.whoseTurn());
     }
     catch (ScribeException e) {
-      Log.i(Constants.LOG_TAG, "Player attempted an illegal move:");
-      Log.i(Constants.LOG_TAG, "    " + e.getMessage());
+      // do nothing
     }
   }
 }
