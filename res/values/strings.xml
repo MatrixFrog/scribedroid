@@ -26,11 +26,23 @@
   <string name="its_not_your_turn">Wait for opponent</string>
   <string name="wins_mini_grid">wins the mini grid!</string>
   <string name="wins">wins! Play again?</string>
+  
+  <!-- The encodings used here are a little complicated:
+       - Replace the <'s with &lt; so that when %1$s and %2$s get replaced, it 
+         doesn't try to strip the HTML tags
+       - Use %22 for " and %20 for space in the market:// uri.
+       - Replace the %'s with %% so that the string formatter doesn't touch them.
+       - When we actually get this string in the Java code, htmlEncode the strings
+         that are going to be used in place of %1$s and %2$s.
+       - Finally, use Html.fromHtml to get a "styledText" and call setText with 
+         that as the argument.
+  -->
   <string name="about_dialog_text">
-    Game Design: <a href="http://www.marksteeregames.com">Mark Steere</a>\n\n
-    Android app by: <a href="market://search?q=pub:&quot;Tyler Breisacher&quot;">Tyler Breisacher</a>\n\n
-    Heavily inspired by: <a href="http://superdupergames.org">Super Duper Games</a>\n\n
-    Feature requests? Bug reports? <a href="http://github.com/MatrixFrog/scribedroid/issues">Click here</a>
+    &lt;b>%1$s %2$s&lt;/b>&lt;br />&lt;br />
+    Game Design: &lt;a href="http://www.marksteeregames.com">Mark Steere&lt;/a>&lt;br />&lt;br />
+    Android app by: &lt;a href="market://search?q=pub:%%22Tyler%%20Breisacher%%22">Tyler Breisacher&lt;/a>&lt;br />&lt;br />
+    Inspired by: &lt;a href="http://superdupergames.org">Super Duper Games&lt;/a>&lt;br />&lt;br />
+    Feature requests? Bug reports? &lt;a href="http://github.com/MatrixFrog/scribedroid/issues">Click here&lt;/a>
   </string>
 
 <string name="gameMode">gameMode</string>  

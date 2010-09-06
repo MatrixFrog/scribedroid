@@ -11,10 +11,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -131,13 +136,7 @@ public class Main extends Activity implements View.OnClickListener,
     super.onCreateDialog(id);
     switch (id) {
     case Constants.DialogId.ABOUT:
-      AlertDialog aboutDialog = new AlertDialog.Builder(this)
-                                   .setPositiveButton(android.R.string.ok, null)
-                                   .create();
-      TextView aboutView = (TextView) getLayoutInflater().inflate(R.layout.about, null);
-      aboutView.setMovementMethod(LinkMovementMethod.getInstance());
-      aboutDialog.setView(aboutView);
-      return aboutDialog;
+      return createAboutDialog();
     case Constants.DialogId.MINIGRID:
       MiniGridDialog miniGridDialog = new MiniGridDialog(this);
       prepareDialog(id, miniGridDialog);
@@ -172,6 +171,28 @@ public class Main extends Activity implements View.OnClickListener,
     default:
       return null;
     }
+  }
+
+  private Dialog createAboutDialog() {
+    AlertDialog aboutDialog = new AlertDialog.Builder(this)
+                                 .setPositiveButton(android.R.string.ok, null)
+                                 .create();
+    String version = "";
+    try {
+      PackageInfo packageInfo = getPackageManager().getPackageInfo(this.getPackageName(), 0);
+      version = TextUtils.htmlEncode(packageInfo.versionName);
+    } catch (NameNotFoundException e) {
+      Log.w(Constants.LOG_TAG, "Unable to get app version:");
+      Log.w(Constants.LOG_TAG, "  " + e.toString());
+    }
+    TextView aboutView = (TextView) getLayoutInflater().inflate(R.layout.about, null);
+    String appName = TextUtils.htmlEncode(this.getString(R.string.app_name));
+    String text = this.getString(R.string.about_dialog_text, appName, version);
+    CharSequence styledText = Html.fromHtml(text);
+    aboutView.setText(styledText);
+    aboutView.setMovementMethod(LinkMovementMethod.getInstance());
+    aboutDialog.setView(aboutView);
+    return aboutDialog;
   }
 
   @Override
