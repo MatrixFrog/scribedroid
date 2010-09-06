@@ -89,9 +89,11 @@ public class Main extends Activity implements View.OnClickListener,
     case R.id.menuitem_about:
       showDialog(Constants.DialogId.ABOUT);
       break;
-    case R.id.menuitem_exit:
-      showDialog(Constants.DialogId.EXIT);
+    case R.id.menuitem_market:
+      startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + this.getPackageName())));
       break;
+    default:
+      // do nothing
     }
     return true;
   }

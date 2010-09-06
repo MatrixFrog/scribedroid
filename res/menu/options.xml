@@ -23,7 +23,7 @@
     android:title="@string/about"
     android:icon="@android:drawable/ic_menu_info_details" />
   <item
-    android:id="@+id/menuitem_exit"
-    android:title="@string/exit_scribe"
-    android:icon="@android:drawable/ic_menu_close_clear_cancel" />
+    android:id="@+id/menuitem_market"
+    android:title="@string/market"
+    android:icon="@drawable/ic_menu_star" />
 </menu>
