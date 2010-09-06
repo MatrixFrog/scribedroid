@@ -11,8 +11,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -128,10 +130,13 @@ public class Main extends Activity implements View.OnClickListener,
     super.onCreateDialog(id);
     switch (id) {
     case Constants.DialogId.ABOUT:
-      return new AlertDialog.Builder(this)
-                .setMessage(R.string.about_dialog_text)
-                .setPositiveButton(android.R.string.ok, null)
-                .create();
+      AlertDialog aboutDialog = new AlertDialog.Builder(this)
+                                   .setPositiveButton(android.R.string.ok, null)
+                                   .create();
+      TextView aboutView = (TextView) getLayoutInflater().inflate(R.layout.about, null);
+      aboutView.setMovementMethod(LinkMovementMethod.getInstance());
+      aboutDialog.setView(aboutView);
+      return aboutDialog;
     case Constants.DialogId.MINIGRID:
       MiniGridDialog miniGridDialog = new MiniGridDialog(this);
       miniGridDialog.setMiniGrid(this.lastClickedMiniGrid);
@@ -145,11 +150,11 @@ public class Main extends Activity implements View.OnClickListener,
       return new AlertDialog.Builder(this)
           .setMessage(R.string.msg_illegal_move).create();
     case Constants.DialogId.WINNER:
-      Dialog dialog = new AlertDialog.Builder(this)
+      Dialog winnerDialog = new AlertDialog.Builder(this)
                          .setPositiveButton(android.R.string.yes, this)
                          .setNegativeButton(android.R.string.no, this).create();
-      this.prepareDialog(id, dialog);
-      return dialog;
+      this.prepareDialog(id, winnerDialog);
+      return winnerDialog;
     case Constants.DialogId.EXIT:
       return new AlertDialog.Builder(this)
           .setMessage(R.string.msg_confirm_exit).setPositiveButton(

@@ -26,12 +26,12 @@
   <string name="wins_mini_grid">wins the mini grid!</string>
   <string name="wins">wins! Play again?</string>
   <string name="about_dialog_text">
-    Game Design: Mark Steere (www.marksteeregames.com)\n\n
-    Application design and development: Tyler Breisacher
-    (http://github.com/MatrixFrog)\n\n
-    Heavily inspired by: Aaron Daltons
-    (http://superdupergames.org)
+    Game Design: <a href="http://www.marksteeregames.com">Mark Steere</a>\n\n
+    Android app by: <a href="http://github.com/MatrixFrog">Tyler Breisacher</a>\n\n
+    Heavily inspired by: <a href="http://superdupergames.org">Super Duper Games</a> 
   </string>
+
+<string name="gameMode">gameMode</string>  
 <string-array name="gameModeEntries">
   <item>Majority</item>
   <item>Super Glyph</item>
