@@ -5,7 +5,6 @@ import tyler.breisacher.scribe.model.XY;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -20,7 +19,6 @@ public class CellView extends View {
   private boolean lastMove;
 
   {
-    this.setBackgroundColor(Color.BLACK);
     this.setPadding(2, 2, 2, 2);
   }
 
