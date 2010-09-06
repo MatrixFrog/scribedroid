@@ -219,14 +219,15 @@ public class Main extends Activity implements View.OnClickListener,
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     if (sharedPreferences == PreferenceManager.getDefaultSharedPreferences(this)) {
-      if (key.equals("gameMode")) {
+      if (key.equals(this.getString(R.string.gameMode))) {
         updateGameMode();
       }
     }
   }
 
   private void updateGameMode() {
-    String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("gameMode", "majority");
+    String mode = PreferenceManager.getDefaultSharedPreferences(this)
+                                   .getString(this.getString(R.string.gameMode), "majority");
     int index = mode.equals("majority") ? 0 : 1;
     String[] gameModeEntries = this.getResources().getStringArray(R.array.gameModeEntries);
 

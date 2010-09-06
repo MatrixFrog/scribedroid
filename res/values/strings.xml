@@ -40,8 +40,11 @@
   <item>majority</item>
   <item>superglyph</item>
 </string-array>
+<string name="majoritySummary">Majority: Whoever wins the majority of the nine mini grids wins overall.</string>
+<string name="superglyphSummary">Super Glyph: Players form super glyphs on the super grid with their winning mini grids.</string>
 <string name="defaultGameMode">Majority</string>
 <string name="defaultGameModeValue">majority</string>
+
 <string name="rules_intro">
  Scribe is a pen and paper game for two players. Nine mini grids together form 
  one super grid. Draws cannot occur in Scribe. Mark Steere invented
