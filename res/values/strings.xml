@@ -40,8 +40,8 @@
 <string name="rules_basicmoves">The two players take turns marking squares, one 
 square per turn, until the entire super grid is filled. Players are not allowed 
 to pass on their turn. On your first turn, you can claim any square on the super 
-grid. The mini grid of your last move (marked with a small white dot) is treated 
-as a map. The square you last claimed points to the mini grid in which you must 
+grid. The mini grid of your last move is treated as a map. The square you last 
+claimed (marked with a small white dot) points to the mini grid in which you must 
 make your next move. For example, in this screenshot, Red\'s last move was in the 
 upper-right corner of a mini grid, so Red must now play in the upper-right mini 
 grid, which is the only one that is not grayed out. If your last move points to 
