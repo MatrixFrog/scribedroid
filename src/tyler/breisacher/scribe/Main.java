@@ -16,10 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-// TODO useful images in rules.xml
-// TODO make a WinnerDialog class with a CellView, instead of text
-// TODO separate classes for the two types of MiniGridViews?
-
 public class Main extends Activity implements View.OnClickListener,
     ScribeListener, DialogInterface.OnClickListener {
 
@@ -46,18 +42,22 @@ public class Main extends Activity implements View.OnClickListener,
     scribeBoard = new ScribeBoard();
     scribeBoardView.setScribeBoard(scribeBoard);
     scribeBoard.addListener(this);
-    currentPlayerIs(scribeBoard.whoseTurn());
+    updatePlayerViews(scribeBoard.whoseTurn());
   }
 
-  private void currentPlayerIs(ScribeMark currentPlayer) {
+  private void updatePlayerViews(ScribeMark currentPlayer) {
     switch (currentPlayer) {
     case RED:
       ((TextView) findViewById(R.id.player1_text)).setText(R.string.its_your_turn);
+      findViewById(R.id.player1_cell).setEnabled(true);
       ((TextView) findViewById(R.id.player2_text)).setText(R.string.its_not_your_turn);
+      findViewById(R.id.player2_cell).setEnabled(false);
       break;
     case BLUE:
       ((TextView) findViewById(R.id.player1_text)).setText(R.string.its_not_your_turn);
+      findViewById(R.id.player1_cell).setEnabled(false);
       ((TextView) findViewById(R.id.player2_text)).setText(R.string.its_your_turn);
+      findViewById(R.id.player2_cell).setEnabled(true);
     }
   }
 
@@ -105,7 +105,7 @@ public class Main extends Activity implements View.OnClickListener,
       ((MiniGridDialog) dialog).setMiniGrid(this.lastClickedMiniGrid);
       break;
     case Constants.DialogId.WINNER:
-      ((AlertDialog) dialog).setMessage(this.winner + " wins! Play again?");
+      ((AlertDialog) dialog).setMessage(Util.scribeMarkName(this, this.winner) + " " + this.getString(R.string.wins));
     }
   }
 
@@ -132,7 +132,6 @@ public class Main extends Activity implements View.OnClickListener,
           .setMessage(R.string.msg_illegal_move).create();
     case Constants.DialogId.WINNER:
       return new AlertDialog.Builder(this)
-                .setMessage(this.winner + " wins! Play again?")
                 .setPositiveButton(android.R.string.yes, this)
                 .setNegativeButton(android.R.string.no, this).create();
     case Constants.DialogId.EXIT:
@@ -169,7 +168,7 @@ public class Main extends Activity implements View.OnClickListener,
   @Override
   public void whoseTurnChanged(ScribeBoard scribeBoard, ScribeMark currentPlayer) {
     if (this.scribeBoard == scribeBoard) {
-      currentPlayerIs(currentPlayer);
+      updatePlayerViews(currentPlayer);
     }
   }
 

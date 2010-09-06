@@ -100,7 +100,8 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   @Override
   public void miniGridWon(MiniGrid miniGrid, ScribeMark winner) {
     if (this.size == Constants.MiniGridViewSize.SMALL) {
-      Toast.makeText(this.getContext(), winner + " wins the MiniGrid!", Toast.LENGTH_SHORT).show();
+      String msg = Util.scribeMarkName(this.getContext(), winner) + " " + this.getContext().getString(R.string.wins_mini_grid);
+      Toast.makeText(this.getContext(), msg, Toast.LENGTH_SHORT).show();
       this.setEnabled(false);
       postInvalidate();
     }

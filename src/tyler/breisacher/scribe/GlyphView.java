@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-public class GlyphView extends View { // TODO pick the sizes in a non-hardcoded way
+public class GlyphView extends View {
 
   private Set<XY> glyph;
 

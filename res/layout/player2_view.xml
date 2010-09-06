@@ -15,6 +15,7 @@
     android:gravity="center"
     android:text="@string/its_not_your_turn" />
   <tyler.breisacher.scribe.CellView
+    android:id="@+id/player2_cell"
     scribe:mark="2"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
