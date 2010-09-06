@@ -72,17 +72,13 @@ public class Main extends Activity implements View.OnClickListener,
     super.onOptionsItemSelected(item);
     switch (item.getItemId()) {
     case R.id.menuitem_glyphs:
-      Log.i(Constants.LOG_TAG, "Creating GlyphsActivity");
       startActivity(new Intent(this, GlyphActivity.class));
-      Log.i(Constants.LOG_TAG, "Started GlyphsActivity");
       break;
     case R.id.menuitem_rules:
-      Log.i(Constants.LOG_TAG, "Creating RulesActivity");
       startActivity(new Intent(this, RulesActivity.class));
-      Log.i(Constants.LOG_TAG, "Started RulesActivity");
       break;
     case R.id.menuitem_new_game:
-      showDialog(Constants.DialogId.NEW_GAME);
+      onNewGameMenuItemSelected();
       break;
     case R.id.menuitem_settings:
 
@@ -95,6 +91,15 @@ public class Main extends Activity implements View.OnClickListener,
       break;
     }
     return true;
+  }
+
+  private void onNewGameMenuItemSelected() {
+    if (scribeBoard.isFull() || scribeBoard.isEmpty()) {
+      startNewGame();
+    }
+    else {
+      showDialog(Constants.DialogId.NEW_GAME);
+    }
   }
 
   @Override

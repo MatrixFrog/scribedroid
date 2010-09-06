@@ -43,6 +43,15 @@ public class ScribeBoard {
     return true;
   }
 
+  public boolean isEmpty() {
+    for (XY xy : XY.allXYs()) {
+      if (!this.get(xy).isEmpty()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   private void update() {
     checkForGameOver();
     enableMiniGrids();
