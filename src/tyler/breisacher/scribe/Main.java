@@ -9,7 +9,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class Main extends Activity implements View.OnClickListener,
-    ScribeListener, DialogInterface.OnClickListener {
+    ScribeListener, DialogInterface.OnClickListener, OnSharedPreferenceChangeListener {
 
   private ScribeBoard scribeBoard;
   private ScribeMark winner;
@@ -32,6 +35,9 @@ public class Main extends Activity implements View.OnClickListener,
 
     setContentView(R.layout.main);
     scribeBoardView = (ScribeBoardView) findViewById(R.id.scribeBoard);
+
+    PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+    updateGameMode();
 
     startNewGame();
   }
@@ -81,7 +87,7 @@ public class Main extends Activity implements View.OnClickListener,
       onNewGameMenuItemSelected();
       break;
     case R.id.menuitem_settings:
-
+      startActivity(new Intent(this, ScribePreferences.class));
       break;
     case R.id.menuitem_about:
       showDialog(Constants.DialogId.ABOUT);
@@ -205,5 +211,28 @@ public class Main extends Activity implements View.OnClickListener,
       this.lastClickedMiniGrid = ((MiniGridView) v).getMiniGrid();
       this.showDialog(Constants.DialogId.MINIGRID);
     }
+  }
+
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    Log.i(Constants.LOG_TAG, "onSharedPreferenceChanged");
+    if (sharedPreferences == PreferenceManager.getDefaultSharedPreferences(this)) {
+      Log.i(Constants.LOG_TAG, "sharedPreferences are this app\'s");
+      if (key.equals("gameMode")) {
+        updateGameMode();
+      }
+    }
+  }
+
+  private void updateGameMode() {
+    String mode = PreferenceManager.getDefaultSharedPreferences(this).getString("gameMode", "majority");
+    Log.i(Constants.LOG_TAG, "mode=" + mode);
+    int index = mode.equals("majority") ? 0 : 1;
+    String[] gameModeEntries = this.getResources().getStringArray(R.array.gameModeEntries);
+
+    tyler.breisacher.scribe.model.Settings.setGameMode(mode);
+    String text = "Game mode: " + gameModeEntries[index];
+    ((TextView) findViewById(R.id.gameMode1)).setText(text);
+    ((TextView) findViewById(R.id.gameMode2)).setText(text);
   }
 }

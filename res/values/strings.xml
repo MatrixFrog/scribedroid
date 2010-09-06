@@ -31,7 +31,16 @@
     Heavily inspired by: Aaron Daltons
     (http://superdupergames.org)
   </string>
-
+<string-array name="gameModeEntries">
+  <item>Majority</item>
+  <item>Super Glyph</item>
+</string-array>
+<string-array name="gameModeEntryValues">
+  <item>majority</item>
+  <item>superglyph</item>
+</string-array>
+<string name="defaultGameMode">Majority</string>
+<string name="defaultGameModeValue">majority</string>
 <string name="rules_intro">
  Scribe is a pen and paper game for two players. Nine mini grids together form 
  one super grid. Draws cannot occur in Scribe. Mark Steere invented
@@ -50,9 +59,12 @@ grid.</string>
 <string name="rules_object">Press \"menu\" to see the 19 glyphs of Scribe. Each 
 glyph is worth the number of dots that compose it. For example the J is worth 
 six points. A glyph also represents its own mirror image and rotations. Glyphs 
-appearing as a subset of a larger group don’t count. When a mini grid is completely
-filled, the glyph points are tallied and the high score wins. Whoever wins the 
-majority of the nine mini grids wins overall.</string>
+appearing as a subset of a larger group don\'t count. When a mini grid is 
+completely filled, the glyph points are tallied and the high score wins. 
+
+\n\nMajority Version: Whoever wins the majority of the nine mini grids wins overall.
+\n\nSuperglyph Version: Players form super glyphs on the super grid with their 
+winning mini grids.</string>
 <string name="rules_copyright">Original rules copyright \u00a9 by Mark Steere, 
 October 2006. Modified slightly for the Android version.</string>
 </resources>

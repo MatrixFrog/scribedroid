@@ -3,8 +3,11 @@ package tyler.breisacher.scribe;
 import tyler.breisacher.scribe.model.ScribeMark;
 import android.graphics.Color;
 
+/**
+ * Settings that affect the UI
+ */
 public abstract class Settings {
-
+  // not configurable yet. everything hard-coded for now
   public static int getEnabledColorForMark(ScribeMark mark) {
     switch (mark) {
     case BLUE:

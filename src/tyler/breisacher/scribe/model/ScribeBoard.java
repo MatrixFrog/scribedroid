@@ -111,7 +111,7 @@ public class ScribeBoard {
 
   private ScribeMark winner() {
     assert this.isFull();
-    switch(Settings.getInstance().mode) {
+    switch(Settings.getGameMode()) {
     case SuperGlyph:
       // build a temporary "MiniGrid" for calculating the overall winner
       MiniGrid superGrid = new MiniGrid(this);
