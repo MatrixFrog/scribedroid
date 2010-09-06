@@ -136,9 +136,11 @@ public class Main extends Activity implements View.OnClickListener,
       return new AlertDialog.Builder(this)
           .setMessage(R.string.msg_illegal_move).create();
     case Constants.DialogId.WINNER:
-      return new AlertDialog.Builder(this)
-                .setPositiveButton(android.R.string.yes, this)
-                .setNegativeButton(android.R.string.no, this).create();
+      Dialog dialog = new AlertDialog.Builder(this)
+                         .setPositiveButton(android.R.string.yes, this)
+                         .setNegativeButton(android.R.string.no, this).create();
+      this.onPrepareDialog(id, dialog);
+      return dialog;
     case Constants.DialogId.EXIT:
       return new AlertDialog.Builder(this)
           .setMessage(R.string.msg_confirm_exit).setPositiveButton(
