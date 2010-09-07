@@ -116,7 +116,7 @@ public class MiniGrid {
       }
       if (points.get(ScribeMark.BLUE) == points.get(ScribeMark.RED))
         throw new ScribeException(
-            "There should never be a tie for a single 3x3 grid.");
+            "There should never be a tie for a single 3x3 grid.\n" + this);
       if (points.get(ScribeMark.BLUE) > points.get(ScribeMark.RED))
         winner = ScribeMark.BLUE;
       else
