@@ -146,9 +146,6 @@ public class Main extends Activity implements View.OnClickListener,
                 .setMessage(R.string.msg_confirm_new_game)
                 .setPositiveButton(android.R.string.yes, this)
                 .setNegativeButton(android.R.string.no, this).create();
-    case Constants.DialogId.ILLEGAL_MOVE:
-      return new AlertDialog.Builder(this)
-          .setMessage(R.string.msg_illegal_move).create();
     case Constants.DialogId.WINNER:
       Dialog winnerDialog = new AlertDialog.Builder(this)
                          .setPositiveButton(android.R.string.yes, this)
