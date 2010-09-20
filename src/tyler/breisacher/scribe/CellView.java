@@ -28,12 +28,10 @@ public class CellView extends View {
     TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CellView);
 
     CharSequence markString = a.getString(R.styleable.CellView_mark);
-    if (markString != null) {
-           if (markString.equals("0")) setMark(ScribeMark.EMPTY);
-      else if (markString.equals("1")) setMark(ScribeMark.RED);
-      else if (markString.equals("2")) setMark(ScribeMark.BLUE);
-      else throw new RuntimeException("Illegal value for 'mark' attribute");
-    }
+    if (markString == null || markString.equals("0")) setMark(ScribeMark.EMPTY);
+    else if (markString.equals("1")) setMark(ScribeMark.RED);
+    else if (markString.equals("2")) setMark(ScribeMark.BLUE);
+    else throw new RuntimeException("Illegal value for 'mark' attribute");
   }
 
   public CellView(Context context, int size) {

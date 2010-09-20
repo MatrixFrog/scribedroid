@@ -3,6 +3,8 @@ Steere. Check out [Mark Steere's website](http://www.marksteeregames.com) for ot
 implementations, including an actual Scribe board that you can print out. Like, 
 on paper. I know, weird, right?
 
+This app is [available in the Android Market](market://details?id=tyler.breisacher.scribe)
+
 The icon is from [DeviantArt user sekkyumu](http://sekkyumu.deviantart.com/art/Developpers-Icons-63052312).
 
 Thanks to Stack Overflow members AaronM and RaveDave for the [UpsideDownTextView](http://stackoverflow.com/questions/2558257) and to Aaron Dalton's [SuperDuperGames](http://superdupergames.org/) which is where I first discovered the game.

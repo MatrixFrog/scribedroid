@@ -146,7 +146,7 @@ public class MiniGrid {
     int i=0;
     for (int y=0; y<3; y++) {
       for (int x=0; x<3; x++) {
-        miniGrid.set(XY.at(x, y), ScribeMark.fromChar(string.charAt(i++)));
+        miniGrid.set(x, y, ScribeMark.fromChar(string.charAt(i++)));
       }
     }
     return miniGrid;
