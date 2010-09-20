@@ -60,7 +60,7 @@ public class CellView extends View {
     int dimension;
     switch (size) {
     case Constants.MiniGridViewSize.LARGE:
-      dimension = (Math.min(displayWidth, displayHeight)-30) / 3;
+      dimension = (Math.min(displayWidth, displayHeight)-50) / 3;
       break;
     case Constants.MiniGridViewSize.SMALL:
     default:

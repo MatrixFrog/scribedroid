@@ -22,7 +22,7 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
   private int size = Constants.MiniGridViewSize.SMALL;
 
   {
-    this.setPadding(2, 2, 2, 2);
+    this.setPadding(4, 4, 4, 4);
   }
 
   public MiniGridView(Context context, AttributeSet attrs) {
