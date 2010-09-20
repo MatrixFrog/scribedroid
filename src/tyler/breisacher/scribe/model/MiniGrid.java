@@ -140,8 +140,8 @@ public class MiniGrid {
   /**
    * The input to fromString is the same as the output of toString
    */
-  static MiniGrid fromString(String string) {
-    string = string.replace("\n", "");
+  public static MiniGrid fromString(String string) {
+    string = string.replaceAll("\\s", "");
     MiniGrid miniGrid = new MiniGrid();
     int i=0;
     for (int y=0; y<3; y++) {

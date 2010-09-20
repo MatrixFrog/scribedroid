@@ -9,6 +9,8 @@ import tyler.breisacher.scribe.model.MiniGridListener;
 import tyler.breisacher.scribe.model.ScribeMark;
 import tyler.breisacher.scribe.model.XY;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TableLayout;
@@ -17,13 +19,26 @@ import android.widget.Toast;
 
 public class MiniGridView extends TableLayout implements MiniGridListener, OnClickListener {
   private MiniGrid miniGrid;
-  private int size;
+  private int size = Constants.MiniGridViewSize.SMALL;
+
+  {
+    this.setPadding(2, 2, 2, 2);
+  }
+
+  public MiniGridView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MiniGridView);
+    String miniGridString = a.getString(R.styleable.MiniGridView_miniGrid);
+    if (miniGridString != null) {
+      MiniGrid miniGrid = MiniGrid.fromString(miniGridString);
+      this.setMiniGrid(miniGrid);
+    }
+  }
 
   public MiniGridView(Context context, int size) {
     super(context);
     this.size = size;
-
-    this.setPadding(2, 2, 2, 2);
   }
 
   public MiniGrid getMiniGrid() {
