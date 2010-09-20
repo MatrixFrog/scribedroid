@@ -123,8 +123,10 @@ public class Main extends Activity implements View.OnClickListener,
   private void prepareDialog(int id, Dialog dialog) {
     switch (id) {
     case Constants.DialogId.MINIGRID:
-      MiniGridDialog miniGridDialog = (MiniGridDialog) dialog;
-      miniGridDialog.setValues(this.lastClickedMiniGrid, this.scribeBoard.whoseTurn());
+      if (this.lastClickedMiniGrid != null && this.scribeBoard.whoseTurn() != null) {
+        MiniGridDialog miniGridDialog = (MiniGridDialog) dialog;
+        miniGridDialog.setValues(this.lastClickedMiniGrid, this.scribeBoard.whoseTurn());
+      }
       break;
     case Constants.DialogId.WINNER:
       ((AlertDialog) dialog).setMessage(Util.scribeMarkName(this, this.winner) + " " + this.getString(R.string.wins));
