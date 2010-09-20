@@ -47,12 +47,6 @@ public class Main extends Activity implements View.OnClickListener,
     startNewGame();
   }
 
-  @Override
-  protected void onPause() {
-    super.onPause();
-    this.removeDialog(Constants.DialogId.MINIGRID);
-  }
-
   void startNewGame() {
     winner = null;
     scribeBoard = new ScribeBoard();
