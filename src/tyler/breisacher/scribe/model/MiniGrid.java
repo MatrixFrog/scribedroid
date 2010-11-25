@@ -87,6 +87,19 @@ public class MiniGrid {
     return data[xy.x][xy.y];
   }
 
+  /**
+   * @return A list of all the positions on this MiniGrid that are still empty.
+   */
+  public List<XY> getEmptyCells() {
+    List<XY> emptyCells = new ArrayList<XY>();
+    for (XY xy : XY.allXYs()) {
+      if (this.get(xy) == ScribeMark.EMPTY) {
+        emptyCells.add(xy);
+      }
+    }
+    return emptyCells;
+  }
+
   public boolean isEmpty() {
     for (XY xy : XY.allXYs()) {
       if (this.get(xy) != ScribeMark.EMPTY) return false;

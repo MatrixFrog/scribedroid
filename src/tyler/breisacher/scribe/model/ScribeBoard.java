@@ -1,6 +1,7 @@
 package tyler.breisacher.scribe.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +84,20 @@ public class ScribeBoard {
       setAllMiniGridsEnabled(false);
       miniGrid.setEnabled(true);
     }
+  }
+
+  /**
+   * @return a collection of all the MiniGrids that are currently enabled.
+   */
+  public List<MiniGrid> getEnabledMinigrids() {
+    List<MiniGrid> enabledMiniGrids = new ArrayList<MiniGrid>();
+    for (XY xy : XY.allXYs()) {
+      MiniGrid miniGrid = this.get(xy);
+      if (miniGrid.isEnabled()) {
+        enabledMiniGrids.add(miniGrid);
+      }
+    }
+    return Collections.unmodifiableList(enabledMiniGrids);
   }
 
   void setWhoseTurn(ScribeMark mark) {
