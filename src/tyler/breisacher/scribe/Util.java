@@ -1,5 +1,6 @@
 package tyler.breisacher.scribe;
 
+import java.util.List;
 import java.util.Random;
 
 import tyler.breisacher.scribe.model.ScribeMark;
@@ -21,6 +22,27 @@ public abstract class Util {
     default:
     	return context.getString(R.string.empty);
   	}
+  }
 
+  /**
+   * Chooses one of the objects from the array at random.
+   *
+   * Roughly equivalent to Python's random.choice()
+   */
+  public static <T> T choice(T[] array) {
+    if (array.length == 0) throw new IllegalArgumentException("Can't pick an item from an empty array");
+    int i = new Random().nextInt(array.length);
+    return array[i];
+  }
+
+  /**
+   * Chooses one of the objects from the list at random.
+   *
+   * Roughly equivalent to Python's random.choice()
+   */
+  public static <T> T choice(List<T> list) {
+    if (list.isEmpty()) throw new IllegalArgumentException("Can't pick an item from an empty list");
+    int i = new Random().nextInt(list.size());
+    return list.get(i);
   }
 }
