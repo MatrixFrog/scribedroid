@@ -89,14 +89,14 @@ public class MiniGrid {
 
   public boolean isEmpty() {
     for (XY xy : XY.allXYs()) {
-      if (this.data[xy.x][xy.y] != ScribeMark.EMPTY) return false;
+      if (this.get(xy) != ScribeMark.EMPTY) return false;
     }
     return true;
   }
 
   public boolean isFull() {
     for (XY xy : XY.allXYs()) {
-      if (data[xy.x][xy.y] == ScribeMark.EMPTY) return false;
+      if (this.get(xy) == ScribeMark.EMPTY) return false;
     }
     return true;
   }
