@@ -25,6 +25,22 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
     this.setPadding(4, 4, 4, 4);
   }
 
+  /**
+   * This constructor allows you define the contents of a MiniGridView, right in
+   * the XML layout. For example, if you define a MiniGridView as:
+   *
+   * <tyler.breisacher.scribe.MiniGridView
+   *     scribe:miniGrid="+O+ O+O OO+" />
+   * (where scribe: corresponds to the namespace http://schemas.android.com/apk/res/tyler.breisacher.scribe)
+   * Then it will be displayed as:
+   * +O+
+   * O+O
+   * OO+
+   *
+   * where + is blue and O is red.
+   *
+   * @see MiniGrid#fromString(String)
+   */
   public MiniGridView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
