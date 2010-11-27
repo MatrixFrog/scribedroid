@@ -27,7 +27,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class Main extends Activity implements View.OnClickListener,
-    ScribeListener, DialogInterface.OnClickListener, OnSharedPreferenceChangeListener {
+    ScribeListener, OnSharedPreferenceChangeListener {
 
   private ScribeBoard scribeBoard;
   private ScribeMark winner;
@@ -145,13 +145,14 @@ public class Main extends Activity implements View.OnClickListener,
     case Constants.DialogId.NEW_GAME:
       return new AlertDialog.Builder(this)
                 .setMessage(R.string.msg_confirm_new_game)
-                .setPositiveButton(R.string.vs_ai, this)
-                .setNegativeButton(R.string.vs_friend, this)
+                .setPositiveButton(R.string.vs_ai, newGameDialogClickListener)
+                .setNegativeButton(R.string.vs_friend, newGameDialogClickListener)
                 .create();
     case Constants.DialogId.WINNER:
       Dialog winnerDialog = new AlertDialog.Builder(this)
-                         .setPositiveButton(android.R.string.yes, this)
-                         .setNegativeButton(android.R.string.no, this).create();
+                         .setPositiveButton(android.R.string.yes, winnerDialogClickListener)
+                         .setNegativeButton(android.R.string.no, winnerDialogClickListener)
+                         .create();
       this.prepareDialog(id, winnerDialog);
       return winnerDialog;
     case Constants.DialogId.EXIT:
@@ -194,6 +195,40 @@ public class Main extends Activity implements View.OnClickListener,
     return aboutDialog;
   }
 
+  /**
+   * OnClickListener for the "New Game" dialog.
+   */
+  private DialogInterface.OnClickListener newGameDialogClickListener = new DialogInterface.OnClickListener() {
+    public void onClick(DialogInterface dialog, int which) {
+      switch (which) {
+      case DialogInterface.BUTTON_POSITIVE:
+        startNewGame(true); // AI opponent
+        break;
+      case DialogInterface.BUTTON_NEGATIVE:
+        startNewGame(false); // human opponent
+        break;
+      default:
+        dialog.cancel();
+      }
+    }
+  };
+
+  private DialogInterface.OnClickListener winnerDialogClickListener = new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+      switch (which) {
+      case DialogInterface.BUTTON_POSITIVE:
+        showDialog(Constants.DialogId.NEW_GAME);
+        break;
+      case DialogInterface.BUTTON_NEGATIVE:
+        finish();
+        break;
+      default:
+        dialog.cancel();
+      }
+    }
+  };
+
   @Override
   public void onBackPressed() {
     showDialog(Constants.DialogId.EXIT);
@@ -215,23 +250,6 @@ public class Main extends Activity implements View.OnClickListener,
         this.scribeBoardView.setEnabled(false);
         aiPlayer.itsYourTurn();
       }
-    }
-  }
-
-  /**
-   * For the "New Game" and "Winner" dialogs.
-   */
-  @Override
-  public void onClick(DialogInterface dialog, int which) {
-    switch (which) {
-    case DialogInterface.BUTTON_POSITIVE:
-      startNewGame(true);
-      break;
-    case DialogInterface.BUTTON_NEGATIVE:
-      startNewGame(false);
-      break;
-    default:
-      dialog.cancel();
     }
   }
 
