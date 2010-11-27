@@ -58,7 +58,6 @@ public class ScribeBoard {
     else {
       setWhoseTurn(whoseTurn.other());
     }
-    enableMiniGrids();
 
     for (XY xy : XY.allXYs()) {
       MiniGrid miniGrid = this.get(xy);
@@ -78,11 +77,25 @@ public class ScribeBoard {
     XY xy = gridPosition.xy;
     MiniGrid miniGrid = data[xy.x][xy.y];
     if (miniGrid.isFull()) {
-      setAllMiniGridsEnabled(true);
+      enableAllNonFullMiniGrids();
     }
     else {
       setAllMiniGridsEnabled(false);
       miniGrid.setEnabled(true);
+    }
+  }
+
+  private void enableAllNonFullMiniGrids() {
+    for (XY xy : XY.allXYs()) {
+      MiniGrid miniGrid = this.get(xy);
+      boolean enable = !miniGrid.isFull();
+      miniGrid.setEnabled(enable);
+    }
+  }
+
+  private void setAllMiniGridsEnabled(boolean enable) {
+    for (XY xy : XY.allXYs()) {
+      this.get(xy).setEnabled(enable);
     }
   }
 
@@ -102,6 +115,7 @@ public class ScribeBoard {
 
   void setWhoseTurn(ScribeMark mark) {
     this.whoseTurn = mark;
+    enableMiniGrids();
     notifyListenersOfWhoseTurn();
   }
 
@@ -146,12 +160,6 @@ public class ScribeBoard {
       else {
         return ScribeMark.BLUE;
       }
-    }
-  }
-
-  private void setAllMiniGridsEnabled(boolean enable) {
-    for (XY xy : XY.allXYs()) {
-      data[xy.x][xy.y].setEnabled(enable);
     }
   }
 

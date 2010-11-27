@@ -1,5 +1,6 @@
 package tyler.breisacher.scribe;
 
+import tyler.breisacher.scribe.ai.RandomAIPlayer;
 import tyler.breisacher.scribe.model.MiniGrid;
 import tyler.breisacher.scribe.model.ScribeBoard;
 import tyler.breisacher.scribe.model.ScribeListener;
@@ -34,6 +35,9 @@ public class Main extends Activity implements View.OnClickListener,
   private MiniGrid lastClickedMiniGrid;
   private ScribeBoardView scribeBoardView;
 
+  private boolean aiMode = false;
+  private AIPlayer aiPlayer = new RandomAIPlayer();
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -44,15 +48,19 @@ public class Main extends Activity implements View.OnClickListener,
     PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
     updateGameMode();
 
-    startNewGame();
+    showDialog(Constants.DialogId.NEW_GAME);
   }
 
-  void startNewGame() {
+  void startNewGame(boolean aiMode) {
+    this.aiMode = aiMode;
     winner = null;
     scribeBoard = new ScribeBoard();
     scribeBoardView.setScribeBoard(scribeBoard);
     scribeBoard.addListener(this);
     updatePlayerViews(scribeBoard.whoseTurn());
+    if (aiMode) {
+      this.aiPlayer.restart(scribeBoard);
+    }
   }
 
   private void updatePlayerViews(ScribeMark currentPlayer) {
@@ -66,7 +74,7 @@ public class Main extends Activity implements View.OnClickListener,
     case BLUE:
       ((TextView) findViewById(R.id.player1_text)).setText(R.string.its_not_your_turn);
       findViewById(R.id.player1_cell).setEnabled(false);
-      ((TextView) findViewById(R.id.player2_text)).setText(R.string.its_your_turn);
+      ((TextView) findViewById(R.id.player2_text)).setText(aiMode ? R.string.thinking : R.string.its_your_turn);
       findViewById(R.id.player2_cell).setEnabled(true);
     }
   }
@@ -88,7 +96,7 @@ public class Main extends Activity implements View.OnClickListener,
       startActivity(new Intent(this, RulesActivity.class));
       break;
     case R.id.menuitem_new_game:
-      onNewGameMenuItemSelected();
+      showDialog(Constants.DialogId.NEW_GAME);
       break;
     case R.id.menuitem_settings:
       startActivity(new Intent(this, ScribePreferences.class));
@@ -103,15 +111,6 @@ public class Main extends Activity implements View.OnClickListener,
       // do nothing
     }
     return true;
-  }
-
-  private void onNewGameMenuItemSelected() {
-    if (scribeBoard.isFull() || scribeBoard.isEmpty()) {
-      startNewGame();
-    }
-    else {
-      showDialog(Constants.DialogId.NEW_GAME);
-    }
   }
 
   @Override
@@ -146,8 +145,9 @@ public class Main extends Activity implements View.OnClickListener,
     case Constants.DialogId.NEW_GAME:
       return new AlertDialog.Builder(this)
                 .setMessage(R.string.msg_confirm_new_game)
-                .setPositiveButton(android.R.string.yes, this)
-                .setNegativeButton(android.R.string.no, this).create();
+                .setPositiveButton(R.string.vs_ai, this)
+                .setNegativeButton(R.string.vs_friend, this)
+                .create();
     case Constants.DialogId.WINNER:
       Dialog winnerDialog = new AlertDialog.Builder(this)
                          .setPositiveButton(android.R.string.yes, this)
@@ -211,6 +211,10 @@ public class Main extends Activity implements View.OnClickListener,
   public void whoseTurnChanged(ScribeBoard scribeBoard, ScribeMark currentPlayer) {
     if (this.scribeBoard == scribeBoard) {
       updatePlayerViews(currentPlayer);
+      if (currentPlayer == ScribeMark.BLUE && aiMode) {
+        this.scribeBoardView.setEnabled(false);
+        aiPlayer.itsYourTurn();
+      }
     }
   }
 
@@ -221,9 +225,11 @@ public class Main extends Activity implements View.OnClickListener,
   public void onClick(DialogInterface dialog, int which) {
     switch (which) {
     case DialogInterface.BUTTON_POSITIVE:
-      startNewGame();
+      startNewGame(true);
       break;
     case DialogInterface.BUTTON_NEGATIVE:
+      startNewGame(false);
+      break;
     default:
       dialog.cancel();
     }
@@ -236,10 +242,12 @@ public class Main extends Activity implements View.OnClickListener,
    */
   @Override
   public void onClick(View v) {
-    if (v instanceof MiniGridView && v.isEnabled()) {
-      this.lastClickedMiniGrid = ((MiniGridView) v).getMiniGrid();
-      this.showDialog(Constants.DialogId.MINIGRID);
-    }
+    if (!(v instanceof MiniGridView)) return;
+    if (!v.isEnabled()) return;
+    if (aiMode && scribeBoard.whoseTurn() != ScribeMark.RED) return;
+
+    this.lastClickedMiniGrid = ((MiniGridView) v).getMiniGrid();
+    showDialog(Constants.DialogId.MINIGRID);
   }
 
   @Override

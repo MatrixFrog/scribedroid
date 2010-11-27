@@ -9,8 +9,9 @@
 
   <string name="msg_illegal_move">You cannot play in that mini-grid at this time</string>
   <string name="current_player">Current Player: </string>
-  <string name="msg_confirm_new_game">Are you sure you want to start a new game? 
-   The current game will be lost.</string>
+  <string name="msg_confirm_new_game">What type of game would you like to play?</string>
+  <string name="vs_ai">vs. the AI</string>
+  <string name="vs_friend">vs. a friend</string>
   <string name="msg_confirm_exit">Are you sure you want to exit Scribe?</string>
   <string name="exit_scribe">Exit Scribe</string>
   <string name="new_game">New Game</string>
@@ -24,6 +25,7 @@
   <string name="make_move">make your move.</string>
   <string name="its_your_turn">It\'s your turn!</string>
   <string name="its_not_your_turn">Wait for opponent</string>
+  <string name="thinking">Thinking...</string>
   <string name="wins_mini_grid">wins the mini grid!</string>
   <string name="wins">wins! Play again?</string>
   
