@@ -22,6 +22,10 @@ public abstract class AIPlayer {
     this.board = board;
   }
 
+  protected void move(MiniGrid miniGrid, int x, int y) {
+    move(miniGrid, XY.at(x, y));
+  }
+
   protected void move(MiniGrid miniGrid, XY xy) {
     if (board.whoseTurn() == mark) {
       miniGrid.set(xy, mark);
