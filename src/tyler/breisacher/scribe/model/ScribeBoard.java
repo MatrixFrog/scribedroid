@@ -29,6 +29,10 @@ public class ScribeBoard {
     return data[x][y];
   }
 
+  public GridPosition getLastMove(ScribeMark player) {
+    return lastMove.get(player);
+  }
+
   public ScribeMark whoseTurn() {
     return whoseTurn;
   }
