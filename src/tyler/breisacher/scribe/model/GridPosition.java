@@ -14,9 +14,9 @@ public class GridPosition {
     this.miniGrid = miniGrid;
     this.xy = xy;
   }
-  
+
   public static List<GridPosition> allPositionsOn(ScribeBoard board) {
-    List<GridPosition> list = new ArrayList<GridPosition>(81);
+    List<GridPosition> list = new ArrayList<GridPosition>(9*9);
     for (XY miniGridXY : XY.allXYs()) {
       for (XY cellXY : XY.allXYs()) {
         list.add(new GridPosition(board.get(miniGridXY), cellXY));
