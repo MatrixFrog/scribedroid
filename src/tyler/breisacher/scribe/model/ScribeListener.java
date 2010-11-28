@@ -9,7 +9,7 @@ public interface ScribeListener {
   void scribeBoardWon(ScribeBoard scribeBoard, ScribeMark winner);
 
   /**
-   * Called automatically whenever someone makes a move on the the scribeBoard 
+   * Called automatically whenever someone makes a move on the scribeBoard 
    * being listened to.
    * 
    * @param scribeBoard 
