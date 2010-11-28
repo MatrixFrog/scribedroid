@@ -12,7 +12,8 @@ import java.util.Map;
 public class XY {
   public final int x, y;
 
-  private static Map<Integer, XY> map = new HashMap<Integer, XY>(9);
+  // cache all 9 instances for performance
+  private static Map<Integer, XY> map = new HashMap<Integer, XY>(ScribeBoard.GRID_SIZE*ScribeBoard.GRID_SIZE);
 
   static {
     for (XY xy : createAllXYs()) {
@@ -21,22 +22,22 @@ public class XY {
   }
 
   private XY(int x, int y) {
-    if (0 <= x && x < 3)
+    if (0 <= x && x < ScribeBoard.GRID_SIZE)
       this.x = x;
     else throw new IllegalArgumentException();
-    if (0 <= y && y < 3)
+    if (0 <= y && y < ScribeBoard.GRID_SIZE)
       this.y = y;
     else throw new IllegalArgumentException();
   }
 
   public static XY at(int x, int y) {
-    return map.get(10*x + y);
+    return map.get(XY.hash(x,y));
   }
 
   private static List<XY> createAllXYs() {
-    List<XY> list = new ArrayList<XY>(9);
-    for (int y=0; y<3; y++) {
-      for (int x=0; x<3; x++) {
+    List<XY> list = new ArrayList<XY>(ScribeBoard.GRID_SIZE*ScribeBoard.GRID_SIZE);
+    for (int y=0; y<ScribeBoard.GRID_SIZE; y++) {
+      for (int x=0; x<ScribeBoard.GRID_SIZE; x++) {
         list.add(new XY(x,y));
       }
     }
@@ -70,7 +71,7 @@ public class XY {
 
   @Override
   public int hashCode() {
-    return 10*x + y;
+    return XY.hash(this.x, this.y);
   }
 
   @Override
@@ -78,6 +79,10 @@ public class XY {
     return x + "" + y;
   }
 
+  private static int hash(int x, int y) {
+	  return 10*x+y;
+  }
+  
   // FOR TESTING ONLY
   static XY fromString(String string) {
     return new XY(Integer.parseInt(string.substring(0,1)),

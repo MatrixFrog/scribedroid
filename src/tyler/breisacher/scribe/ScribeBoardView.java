@@ -22,10 +22,10 @@ public class ScribeBoardView extends TableLayout {
   private void rebuildLayout() {
     this.removeAllViews();
 
-    for (int y=0; y<3; y++) {
+    for (int y=0; y<ScribeBoard.GRID_SIZE; y++) {
       TableRow row = new TableRow(this.getContext());
       this.addView(row);
-      for (int x=0; x<3; x++) {
+      for (int x=0; x<ScribeBoard.GRID_SIZE; x++) {
         MiniGridView mgv = new MiniGridView(this.getContext(), Constants.MiniGridViewSize.SMALL);
         mgv.setOnClickListener((Main) this.getContext());
 
