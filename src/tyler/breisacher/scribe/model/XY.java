@@ -1,5 +1,7 @@
 package tyler.breisacher.scribe.model;
 
+import static tyler.breisacher.scribe.model.ScribeBoard.GRID_SIZE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,7 +15,7 @@ public class XY {
   public final int x, y;
 
   // cache all 9 instances for performance
-  private static Map<Integer, XY> map = new HashMap<Integer, XY>(ScribeBoard.GRID_SIZE*ScribeBoard.GRID_SIZE);
+  private static Map<Integer, XY> map = new HashMap<Integer, XY>(GRID_SIZE*GRID_SIZE);
 
   static {
     for (XY xy : createAllXYs()) {
@@ -22,10 +24,10 @@ public class XY {
   }
 
   private XY(int x, int y) {
-    if (0 <= x && x < ScribeBoard.GRID_SIZE)
+    if (0 <= x && x < GRID_SIZE)
       this.x = x;
     else throw new IllegalArgumentException();
-    if (0 <= y && y < ScribeBoard.GRID_SIZE)
+    if (0 <= y && y < GRID_SIZE)
       this.y = y;
     else throw new IllegalArgumentException();
   }
@@ -35,9 +37,9 @@ public class XY {
   }
 
   private static List<XY> createAllXYs() {
-    List<XY> list = new ArrayList<XY>(ScribeBoard.GRID_SIZE*ScribeBoard.GRID_SIZE);
-    for (int y=0; y<ScribeBoard.GRID_SIZE; y++) {
-      for (int x=0; x<ScribeBoard.GRID_SIZE; x++) {
+    List<XY> list = new ArrayList<XY>(GRID_SIZE*GRID_SIZE);
+    for (int y=0; y<GRID_SIZE; y++) {
+      for (int x=0; x<GRID_SIZE; x++) {
         list.add(new XY(x,y));
       }
     }
@@ -82,7 +84,7 @@ public class XY {
   private static int hash(int x, int y) {
 	  return 10*x+y;
   }
-  
+
   // FOR TESTING ONLY
   static XY fromString(String string) {
     return new XY(Integer.parseInt(string.substring(0,1)),

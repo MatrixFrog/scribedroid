@@ -1,5 +1,7 @@
 package tyler.breisacher.scribe.model;
 
+import static tyler.breisacher.scribe.model.ScribeBoard.GRID_SIZE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +18,8 @@ public class GridPosition {
   }
 
   public static List<GridPosition> allPositionsOn(ScribeBoard board) {
-	int GRID_SQUARES = ScribeBoard.GRID_SIZE * ScribeBoard.GRID_SIZE;
-    List<GridPosition> list = new ArrayList<GridPosition>(GRID_SQUARES * GRID_SQUARES);
+    int GRID_SQUARES = GRID_SIZE * GRID_SIZE;
+    List<GridPosition> list = new ArrayList<GridPosition>(GRID_SQUARES*GRID_SQUARES);
     for (XY miniGridXY : XY.allXYs()) {
       for (XY cellXY : XY.allXYs()) {
         list.add(new GridPosition(board.get(miniGridXY), cellXY));
