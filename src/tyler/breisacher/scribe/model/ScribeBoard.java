@@ -10,7 +10,8 @@ import java.util.Map;
  * The gameboard and some other data, such as whose turn it is.
  */
 public class ScribeBoard {
-  private MiniGrid[][] data = new MiniGrid[3][3];
+  public final static int GRID_SIZE = 3;
+  private MiniGrid[][] data = new MiniGrid[GRID_SIZE][GRID_SIZE];
   private Map<ScribeMark, GridPosition> lastMove = new EnumMap<ScribeMark, GridPosition>(ScribeMark.class);
   ScribeMark whoseTurn = ScribeMark.RED;
   private List<ScribeListener> listeners = new ArrayList<ScribeListener>();

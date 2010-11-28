@@ -6,6 +6,7 @@ import java.util.List;
 
 import tyler.breisacher.scribe.model.MiniGrid;
 import tyler.breisacher.scribe.model.MiniGridListener;
+import tyler.breisacher.scribe.model.ScribeBoard;
 import tyler.breisacher.scribe.model.ScribeMark;
 import tyler.breisacher.scribe.model.XY;
 import android.content.Context;
@@ -69,10 +70,10 @@ public class MiniGridView extends TableLayout implements MiniGridListener, OnCli
 
   private void rebuildLayout() {
     this.removeAllViews();
-    for (int y=0; y<3; y++) {
+    for (int y=0; y<ScribeBoard.GRID_SIZE; y++) {
       TableRow row = new TableRow(this.getContext());
       this.addView(row);
-      for (int x=0; x<3; x++) {
+      for (int x=0; x<ScribeBoard.GRID_SIZE; x++) {
         CellView cell = new CellView(this.getContext(), this.size);
         cell.setXY(XY.at(x, y));
         cell.setMark(this.miniGrid.get(x, y));
