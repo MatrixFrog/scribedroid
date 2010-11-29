@@ -14,14 +14,14 @@ public abstract class Util {
   }
 
   public static String scribeMarkName(Context context, ScribeMark mark) {
-  	switch (mark) {
-  	case RED:
-  		return context.getString(R.string.red);
-  	case BLUE:
-  		return context.getString(R.string.blue);
+    switch (mark) {
+    case RED:
+      return context.getString(R.string.red);
+    case BLUE:
+      return context.getString(R.string.blue);
     default:
-    	return context.getString(R.string.empty);
-  	}
+      return context.getString(R.string.empty);
+    }
   }
 
   /**

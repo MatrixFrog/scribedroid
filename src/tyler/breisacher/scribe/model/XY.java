@@ -82,7 +82,7 @@ public class XY {
   }
 
   private static int hash(int x, int y) {
-	  return 10*x+y;
+    return 10*x+y;
   }
 
   // FOR TESTING ONLY

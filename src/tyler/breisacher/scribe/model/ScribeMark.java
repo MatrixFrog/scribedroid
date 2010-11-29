@@ -1,18 +1,18 @@
 package tyler.breisacher.scribe.model;
 
 
-public enum ScribeMark { 
-	BLUE('+'), RED('O'), EMPTY('-');
+public enum ScribeMark {
+  BLUE('+'), RED('O'), EMPTY('-');
 
-	ScribeMark(char ch) {
-		this.ch = ch;
-	}
-	
-	private final char ch;
-	
-	public char toChar() {
-		return ch;
-	}
+  ScribeMark(char ch) {
+    this.ch = ch;
+  }
+
+  private final char ch;
+
+  public char toChar() {
+    return ch;
+  }
 
   public static ScribeMark fromChar(char ch) {
     if (ch == BLUE.ch) return BLUE;
