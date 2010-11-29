@@ -246,9 +246,9 @@ public class Main extends Activity implements View.OnClickListener,
   public void whoseTurnChanged(ScribeBoard scribeBoard, ScribeMark currentPlayer) {
     if (this.scribeBoard == scribeBoard) {
       updatePlayerViews(currentPlayer);
-      if (currentPlayer == ScribeMark.BLUE && aiMode) {
+      if (currentPlayer == ScribeMark.BLUE && this.aiMode) {
         this.scribeBoardView.setEnabled(false);
-        aiPlayer.itsYourTurn();
+        this.aiPlayer.move();
       }
     }
   }
