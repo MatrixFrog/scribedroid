@@ -118,15 +118,7 @@ public class MiniGrid {
     if (winner == null) {
       if (!this.isFull())
         return ScribeMark.EMPTY;
-      Map<ScribeMark, Integer> points = new EnumMap<ScribeMark, Integer>(
-          ScribeMark.class);
-      points.put(ScribeMark.BLUE, 0);
-      points.put(ScribeMark.RED, 0);
-      for (Region region : this.regions) {
-        if (region.isGlyph()) {
-          points.put(region.mark, points.get(region.mark) + region.size());
-        }
-      }
+      Map<ScribeMark, Integer> points = this.points();
       if (points.get(ScribeMark.BLUE) == points.get(ScribeMark.RED))
         throw new ScribeException(
             "There should never be a tie for a single 3x3 grid.\n" + this);
@@ -136,6 +128,18 @@ public class MiniGrid {
         winner = ScribeMark.RED;
     }
     return winner;
+  }
+  
+  public Map<ScribeMark, Integer> points() {
+    Map<ScribeMark, Integer> points = new EnumMap<ScribeMark, Integer>(ScribeMark.class);
+    points.put(ScribeMark.BLUE, 0);
+    points.put(ScribeMark.RED, 0);
+    for (Region region : this.regions) {
+      if (region.isGlyph()) {
+        points.put(region.mark, points.get(region.mark) + region.size());
+      }
+    }
+    return points;
   }
 
   @Override
