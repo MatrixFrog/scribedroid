@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * A Region is a collection of adjacent cells, sometimes a glyph.
+ */
+@SuppressWarnings("serial")
 public class Region extends HashSet<XY> {
   ScribeMark mark;
   private Region normalized = null;
@@ -19,20 +23,20 @@ public class Region extends HashSet<XY> {
 
   /**
    * @return the "normalized" version of this region: the same region,
-   * translated up and left as far as possible.
+   *         translated up and left as far as possible.
    */
   private Region normalized() {
     if (normalized == null) {
-    int minX = Integer.MAX_VALUE;
-    int minY = Integer.MAX_VALUE;
-    for (XY xy : this) {
-      minX = Math.min(minX, xy.x);
-      minY = Math.min(minY, xy.y);
-    }
-    normalized = new Region(this.mark);
-    for (XY xy : this) {
-      normalized.add(XY.at(xy.x-minX, xy.y-minY));
-    }
+      int minX = Integer.MAX_VALUE;
+      int minY = Integer.MAX_VALUE;
+      for (XY xy : this) {
+        minX = Math.min(minX, xy.x);
+        minY = Math.min(minY, xy.y);
+      }
+      normalized = new Region(this.mark);
+      for (XY xy : this) {
+        normalized.add(XY.at(xy.x - minX, xy.y - minY));
+      }
     }
     return normalized;
   }
@@ -43,7 +47,7 @@ public class Region extends HashSet<XY> {
   private Region reflected() {
     Region reflectedRegion = new Region(this.mark);
     for (XY xy : this) {
-      reflectedRegion.add(XY.at(2-xy.x, xy.y));
+      reflectedRegion.add(XY.at(2 - xy.x, xy.y));
     }
     return reflectedRegion;
   }
@@ -54,7 +58,7 @@ public class Region extends HashSet<XY> {
   Region rotated() {
     Region rotatedRegion = new Region(this.mark);
     for (XY xy : this) {
-      rotatedRegion.add(XY.at(2-xy.y, xy.x));
+      rotatedRegion.add(XY.at(2 - xy.y, xy.x));
     }
     return rotatedRegion.normalized();
   }
@@ -84,9 +88,9 @@ public class Region extends HashSet<XY> {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for (int y=0; y<3; y++) {
+    for (int y = 0; y < 3; y++) {
       sb.append('\n');
-      for (int x=0; x<3; x++) {
+      for (int x = 0; x < 3; x++) {
         if (this.contains(XY.at(x, y))) {
           sb.append(this.mark.toChar());
         }
