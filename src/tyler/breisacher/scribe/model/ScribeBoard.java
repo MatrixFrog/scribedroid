@@ -175,4 +175,14 @@ public class ScribeBoard {
       update();
     }
   };
+  
+  XY getMiniGridXY(MiniGrid mg) {
+    for (XY xy : XY.allXYs()) {
+      if (this.get(xy) == mg) {
+        return xy;
+      }
+    }
+    throw new RuntimeException("cannot find minigrid: " + mg);
+  }
+
 }
