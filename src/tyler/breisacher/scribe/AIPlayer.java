@@ -17,8 +17,9 @@ public abstract class AIPlayer {
 	/**
 	 * Called when a new game is starting.
 	 */
-	protected void restart(ScribeBoard board) {
+	protected void restart(ScribeBoard board, ScribeMark player) {
 		this.board = board;
+		this.mark = player;
 	}
 
 	/**
@@ -28,12 +29,11 @@ public abstract class AIPlayer {
 
 	
 	protected ScribeBoard board;
-
-	private final static ScribeMark mark = ScribeMark.BLUE;
+	protected ScribeMark mark;
 
 	private void move(MiniGrid miniGrid, XY xy) {
-		if (board.whoseTurn() == mark) {
-			miniGrid.set(xy, mark);
+		if (this.board.whoseTurn() == this.mark) {
+			miniGrid.set(xy, this.mark);
 		} else {
 			throw new ScribeException(
 					"The AI player cannot move now because it is not its turn.");

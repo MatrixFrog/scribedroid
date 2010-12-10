@@ -59,6 +59,7 @@ public class Main extends Activity implements View.OnClickListener,
     scribeBoard.addListener(this);
     updatePlayerViews(scribeBoard.whoseTurn());
     if (aiMode) {
+      this.aiPlayer.restart(scribeBoard, ScribeMark.BLUE);
       this.aiPlayer.restart(scribeBoard);
     }
   }
