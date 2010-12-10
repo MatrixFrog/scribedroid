@@ -1,5 +1,7 @@
 package tyler.breisacher.scribe.model;
 
+import static tyler.breisacher.scribe.model.ScribeBoard.GRID_SIZE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -230,5 +232,17 @@ public class MiniGrid {
     catch (ScribeException e) {
       // do nothing
     }
+  }
+  
+  public MiniGrid copy() {
+    MiniGrid copy = new MiniGrid();
+    copy.parent = this.parent;
+    for (int y=0; y<GRID_SIZE; y++) {
+      for (int x=0; x<GRID_SIZE; x++) {
+        copy.set(x, y, this.get(x,y));
+      }
+    }
+    return copy;
+
   }
 }

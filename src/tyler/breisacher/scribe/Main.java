@@ -1,6 +1,6 @@
 package tyler.breisacher.scribe;
 
-import tyler.breisacher.scribe.ai.RandomAIPlayer;
+import tyler.breisacher.scribe.ai.LeesAIPlayer;
 import tyler.breisacher.scribe.model.MiniGrid;
 import tyler.breisacher.scribe.model.ScribeBoard;
 import tyler.breisacher.scribe.model.ScribeListener;
@@ -36,7 +36,7 @@ public class Main extends Activity implements View.OnClickListener,
   private ScribeBoardView scribeBoardView;
 
   private boolean aiMode = false;
-  private AIPlayer aiPlayer = new RandomAIPlayer();
+  private AIPlayer aiPlayer = new LeesAIPlayer();
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class Main extends Activity implements View.OnClickListener,
     updatePlayerViews(scribeBoard.whoseTurn());
     if (aiMode) {
       this.aiPlayer.restart(scribeBoard, ScribeMark.BLUE);
-      this.aiPlayer.restart(scribeBoard);
     }
   }
 
