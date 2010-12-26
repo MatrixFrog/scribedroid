@@ -147,7 +147,6 @@ public class MiniGrid {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append(this.parent.getMiniGridXY(this)).append('\n');
     for (int y=0; y<3; y++) {
       for (int x=0; x<3; x++) {
         sb.append(data[x][y].toChar());
