@@ -56,6 +56,10 @@ public class Main extends Activity implements View.OnClickListener,
     scribeBoard = new ScribeBoard();
     scribeBoardView.setScribeBoard(scribeBoard);
     scribeBoard.addListener(this);
+    if (getResources().getBoolean(R.bool.log_all_moves)) {
+      Log.i("Logging all moves");
+      MoveLogger.getInstance().setScribeBoard(scribeBoard);
+    }
     updatePlayerViews(scribeBoard.whoseTurn());
     if (aiMode) {
       this.aiPlayer.restart(scribeBoard, ScribeMark.BLUE);

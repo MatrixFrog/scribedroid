@@ -42,7 +42,7 @@ public class LeesAIPlayer extends AIPlayer {
     int myPoints = points.get(this.mark);
     int opponentPoints = points.get(this.mark.other());
     int delta = myPoints - opponentPoints;
-    Log.i("itsYourTurn: mg: " + miniThisTurn + ", delta: " + delta);
+    Log.d("itsYourTurn: mg: " + miniThisTurn + ", delta: " + delta);
     List<XY> cellsThisTurn = miniThisTurn.getEmptyCells();
     XY max = null;
     for (XY xy : cellsThisTurn) {
@@ -50,7 +50,7 @@ public class LeesAIPlayer extends AIPlayer {
       trial.set(xy, this.mark);
       Map<ScribeMark, Integer> trialPoints = trial.points();
       int trialDelta = trialPoints.get(this.mark) - trialPoints.get(this.mark.other());
-      Log.i("itsYourTurn: xy: " + xy + ", trialPoints: " + trialPoints + ", trialDelta: " + trialDelta + ", delta: " + delta);
+      Log.d("itsYourTurn: xy: " + xy + ", trialPoints: " + trialPoints + ", trialDelta: " + trialDelta + ", delta: " + delta);
       if (trialDelta >= delta) {
         delta = trialDelta;
         max = xy;

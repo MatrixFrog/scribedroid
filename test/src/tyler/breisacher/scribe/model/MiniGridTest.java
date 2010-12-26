@@ -15,6 +15,10 @@ public class MiniGridTest {
   @Parameters
   public static Collection<Object[]> parameters() {
     return Arrays.asList(new Object[][] {
+
+        // I guess you would call this a "squat U"?
+        {"++O\nO+O\n++O", 3, ScribeMark.fromChar('O')},
+
         // Bomber
         {"+++\nO++\nOO+", 2, ScribeMark.fromChar('+')},
         {"+OO\n++O\n+++", 2, ScribeMark.fromChar('+')},
