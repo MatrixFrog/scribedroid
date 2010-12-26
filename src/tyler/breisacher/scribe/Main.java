@@ -20,7 +20,6 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -182,8 +181,8 @@ public class Main extends Activity implements View.OnClickListener,
       PackageInfo packageInfo = getPackageManager().getPackageInfo(this.getPackageName(), 0);
       version = TextUtils.htmlEncode(packageInfo.versionName);
     } catch (NameNotFoundException e) {
-      Log.w(Constants.LOG_TAG, "Unable to get app version:");
-      Log.w(Constants.LOG_TAG, "  " + e.toString());
+      Log.w("Unable to get app version:");
+      Log.w("  " + e.toString());
     }
     TextView aboutView = (TextView) getLayoutInflater().inflate(R.layout.about, null);
     String appName = TextUtils.htmlEncode(this.getString(R.string.app_name));
