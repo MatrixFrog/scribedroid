@@ -19,6 +19,8 @@ public class MiniGridTest {
         // I guess you would call this a "squat U"?
         {"++O\nO+O\n++O", 3, ScribeMark.fromChar('O')},
 
+        {"OOO\n+OO\nO++", 4, ScribeMark.fromChar('+')},
+
         // Bomber
         {"+++\nO++\nOO+", 2, ScribeMark.fromChar('+')},
         {"+OO\n++O\n+++", 2, ScribeMark.fromChar('+')},

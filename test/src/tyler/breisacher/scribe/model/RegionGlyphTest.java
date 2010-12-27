@@ -33,19 +33,37 @@ public class RegionGlyphTest {
           {"00 10 20 01", true},
           {"00 10 11 12", true},
 
+          /* mini-L's, such as
+           *
+           * ---
+           * -O-
+           * -OO
+           */
+          {"00 10 11", false},
+          {"00 01 11", false},
+          {"01 02 12", false},
+          {"00 10 11", false},
+
+          /* Shapes such as:
+           *
+           * OOO
+           * -OO
+           * ---
+           */
+          {"00 10 20 11 21", false}
       });
     }
 
     private Region region;
-    private boolean glyph;
+    private boolean isGlyph;
 
-    public RegionGlyphTest(String region, boolean winner) {
+    public RegionGlyphTest(String region, boolean isGlyph) {
       this.region = Region.fromString(region);
-      this.glyph = winner;
+      this.isGlyph = isGlyph;
     }
 
     @Test
     public void glyphTest() {
-      Assert.assertEquals(glyph, region.isGlyph());
+      Assert.assertEquals(isGlyph, region.isGlyph());
     }
   }
